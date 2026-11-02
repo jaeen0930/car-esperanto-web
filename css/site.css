@@ -1,0 +1,290 @@
+/* ──────────────────────────────────────────────────────────────
+   CAR ESPERANTO · 전시 웹사이트
+   단위 규칙: 피그마 프레임은 3840 × 2160 (1920 × 1080의 2배).
+   html 의 font-size 를 100vw / 192 로 두어 1rem = 10px @1920.
+   따라서 피그마 값(3840 기준) ÷ 20 = rem.  예) 38px → 1.9rem, 128px → 6.4rem
+   한 화면(16:9) = .frame (192rem × 108rem), 섹션은 100vh 안에 세로 가운데.
+   ────────────────────────────────────────────────────────────── */
+
+@font-face {
+  font-family: "Pretendard Variable";
+  src: url("../assets/fonts/PretendardVariable.woff2") format("woff2");
+  font-weight: 45 920;
+  font-display: swap;
+}
+/* ABC Diatype Variable (Unlicensed Trial) — 파일은 assets/fonts/ 에 둔다 */
+@font-face {
+  font-family: "ABC Diatype Variable";
+  src: url("../assets/fonts/ABCDiatypeVariable-Trial.woff2") format("woff2"),
+       url("../assets/fonts/ABCDiatypeVariable-Trial.ttf") format("truetype"),
+       url("../assets/fonts/ABCDiatypeVariable-Trial.otf") format("opentype");
+  font-weight: 100 900;
+  font-display: swap;
+}
+
+:root {
+  --sans-en: "ABC Diatype Variable", "ABC Diatype Variable Unlicensed Trial", "ABC Diatype", "Pretendard Variable", Pretendard, Helvetica, Arial, sans-serif;
+  --sans-kr: "Pretendard Variable", Pretendard, "Apple SD Gothic Neo", "Noto Sans KR", sans-serif;
+  --red: #ff0000;
+  --red-2: #e0252d;
+  --gray-1: #d9d9d9;
+  --gray-2: #c6c6c6;
+  --gray-3: #b2b2b2;
+  --gray-4: #808080;
+  --nav-color: #000;
+  --nav-h: 7.95rem;          /* 로고 영역 포함 상단 여백 */
+}
+
+html { font-size: calc(100vw / 192); scroll-behavior: auto; -webkit-text-size-adjust: 100%; }
+*, *::before, *::after { box-sizing: border-box; }
+body {
+  margin: 0; background: #fff; color: #000;
+  font-family: var(--sans-kr);
+  -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale;
+  word-break: keep-all; overflow-x: hidden;
+}
+img, video, canvas, svg { display: block; }
+p, h1, h2, h3 { margin: 0; font-weight: inherit; }
+a { color: inherit; text-decoration: none; }
+button { font: inherit; color: inherit; background: none; border: 0; padding: 0; cursor: pointer; }
+.en { font-family: var(--sans-en); }
+.kr { font-family: var(--sans-kr); }
+.sr-only { position: absolute; width: 1px; height: 1px; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+
+/* ─── 공통 타입 (피그마 값 그대로) ─── */
+.t-nav   { font-family: var(--sans-en); font-weight: 700; font-size: 1.9rem; line-height: 1.9rem; letter-spacing: -0.0513rem; white-space: nowrap; }
+.t-body  { font-family: var(--sans-kr); font-weight: 600; font-size: 1.5rem; line-height: 2.15rem; letter-spacing: -0.0405rem; }
+.t-body .en, .t-body.en { font-family: var(--sans-en); font-weight: 500; }
+.t-body-r { font-family: var(--sans-kr); font-weight: 400; font-size: 1.5rem; line-height: 2.15rem; letter-spacing: -0.0405rem; }
+.t-body-b { font-family: var(--sans-kr); font-weight: 700; font-size: 1.5rem; line-height: 1.9rem; letter-spacing: -0.0405rem; }
+.t-level { font-family: var(--sans-en); font-weight: 700; font-size: 20rem; line-height: 17.5rem; white-space: nowrap; }
+
+/* ─── 섹션 골격 ─── */
+.sec { position: relative; width: 100%; min-height: 100vh; min-height: 100svh; overflow: hidden; }
+.sec--white { background: #fff; color: #000; }
+.sec--black { background: #000; color: #fff; }
+.frame { position: absolute; left: 0; top: 50%; width: 192rem; height: 108rem; transform: translateY(-50%); }
+.sec--flow { min-height: 0; height: auto; }
+
+/* ─── 네비게이션 (고정) ─── */
+#nav { position: fixed; inset: 0 0 auto 0; height: 0; z-index: 60; pointer-events: none; color: var(--nav-color); transition: color .35s ease; }
+#nav > * { pointer-events: auto; }
+#nav .logo { position: absolute; left: 6.4rem; top: 1.8rem; width: 9.06rem; height: 4.81rem; }
+#nav .logo svg, #nav .logo img { width: 100%; height: 100%; }
+#nav[data-theme="dark"] .logo img { filter: invert(1); }
+#nav .links { position: absolute; left: calc(66.67% + 7.078rem); top: 3.15rem; width: 50.55rem; height: 1.9rem; }
+#nav .links a { position: absolute; top: 0; }
+#nav .links a:nth-child(1) { left: 0; }              /* About      inset 0 89.81% 0 0 */
+#nav .links a:nth-child(2) { left: 29.47%; }         /* Works */
+#nav .links a:nth-child(3) { left: 53.61%; }         /* Designers */
+#nav .links a:nth-child(4) { left: 83.98%; }         /* Exhibition */
+#nav .links a:hover { opacity: .6; }
+#nav[data-theme="dark"] { --nav-color: #fff; }
+#nav[data-theme="light"] { --nav-color: #000; }
+#nav.is-hidden { opacity: 0; transition: opacity .3s; }
+
+/* ─── 1. 히어로 (CAR ▭ ESPERANTO → 상자가 화면을 덮음 → AIDV) ─── */
+#hero { height: 100vh; }
+#hero .frame { background: #fff; overflow: visible; }
+#hero.is-covered { background: #000; }
+#hero .hero-stage { position: absolute; inset: 0; }
+#hero .word { position: absolute; top: 44.85rem; height: 12.42rem; will-change: transform; }
+#hero .word img { height: 100%; width: auto; }
+#hero .word--car { left: 0; width: 30.15rem; }
+#hero .word--esp { left: 0; width: 94rem; }
+#hero .box { position: absolute; left: 0; top: 0; width: 19.45rem; height: 11.52rem; overflow: hidden; background: #000; will-change: transform, width, height; }
+#hero .box .clip { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; transform-origin: 50% 50%; }
+#hero .box .dim { position: absolute; inset: 0; background: #000; opacity: 0; }
+#hero .hero-foot { position: absolute; left: 0; right: 0; top: 100.8rem; }
+#hero .hero-foot .year { position: absolute; left: 6.4rem; top: 0; }
+#hero .hero-foot .claim { position: absolute; left: calc(33.33% + 9.8rem); top: 0; width: 50.1rem; white-space: normal; }
+#hero .hero-foot .sound { position: absolute; left: calc(91.67% + 9.6rem); top: 0; transform: translateX(-100%); text-align: right; }
+
+/* AIDV 레이어 (히어로 마지막 상태) */
+#aidv { position: absolute; inset: 0; opacity: 0; pointer-events: none; color: #fff; }
+#aidv .copy { position: absolute; left: 6.35rem; top: 20.3rem; width: 75rem; }
+#aidv .big { position: absolute; left: calc(12.5% - 17.64rem); top: calc(50% + 5.72rem); font-family: var(--sans-en); font-weight: 700; font-size: 20rem; line-height: 17.5rem; white-space: nowrap; }
+#aidv .def { position: absolute; left: calc(20.83% - 33.63rem); top: 77.17rem; width: 75rem; font-weight: 400; }
+#aidv .def .en { font-family: var(--sans-en); font-weight: 400; }
+
+/* ─── 픽셀 밴드 (Kalkbrenner 식 전환) ─── */
+.pxband { position: absolute; left: 0; right: 0; bottom: 0; height: 24rem; display: grid; grid-auto-flow: column; pointer-events: none; z-index: 5; }
+.pxband i { display: block; opacity: 0; background: var(--px-color, #fff); }
+
+/* ─── 2. 자율주행 레벨 (journey) ─── */
+#levels { height: 100vh; background: #fff; color: #000; }
+#levels .frame { overflow: visible; }
+#levels .lv-copy { position: absolute; left: 6.36rem; top: 20.32rem; width: 58.14rem; }
+#levels .lv-copy .en { font-family: var(--sans-en); font-weight: 500; }
+#levels .lv-img { position: absolute; left: calc(75% - 3.76rem); top: 20.32rem; width: 45.4rem; height: 45.4rem; background: var(--gray-1); overflow: hidden; }
+#levels .lv-img img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; transform-origin: 50% 100%; }
+#levels .lv-stack { position: absolute; left: 0; top: 0; width: 100%; height: 100%; }
+#levels .lv-row { position: absolute; left: 0; top: 0; will-change: transform; }
+#levels .lv-row .t-level { position: absolute; left: 0; top: 0; }
+#levels .lv-row .line { position: absolute; left: 6.4rem; width: 179.2rem; height: 0.1rem; background: #000; }
+#levels .lv-why { position: absolute; left: 6.35rem; top: 20.3rem; width: 75rem; opacity: 0; }
+#levels .lv-why .en { font-family: var(--sans-en); font-weight: 500; }
+
+/* ─── 3·4·5 정적 화면 (Everyone Speaks · The Gap · Vision) ─── */
+.std .copy { position: absolute; left: 6.35rem; top: 20.3rem; width: 85rem; }
+.std .copy .en { font-family: var(--sans-en); font-weight: 500; }
+.std .red { color: var(--red); }
+.trio { position: absolute; top: 35.96rem; width: 58.15rem; height: 66.52rem; background: var(--gray-1); overflow: hidden; }
+.trio img { width: 100%; height: 100%; object-fit: cover; }
+.trio--1 { left: 6.4rem; }
+.trio--2 { left: calc(33.33% + 2.98rem); }
+.trio--3 { left: calc(66.67% - 0.43rem); }
+#gap .photo { position: absolute; left: 6.41rem; top: 35.95rem; width: 179.2rem; height: 53rem; overflow: hidden; }
+#gap .photo img { width: 100%; height: 100%; object-fit: cover; }
+#gap .marker { position: absolute; width: 2.8rem; height: 2.8rem; }
+#gap .marker img { width: 100%; height: 100%; }
+#gap .marker span { position: absolute; inset: 0; display: grid; place-items: center; color: #fff; font-family: var(--sans-en); font-weight: 700; font-size: 1.1rem; letter-spacing: -0.022rem; line-height: 1; }
+#gap .m1 { left: calc(41.67% + 3.59rem); top: 57.55rem; }
+#gap .m2 { left: calc(8.33% + 14.56rem); top: 54.55rem; }
+#gap .m3 { left: calc(83.33% + 2.63rem); top: 48.55rem; }
+#gap .gcol { position: absolute; top: 92.15rem; width: 55rem; }
+#gap .gcol .lab { color: var(--red-2); white-space: pre; }
+#gap .gcol .q { position: absolute; top: 2.2rem; left: 0; width: 55rem; }
+#gap .gcol .d { position: absolute; top: 5.2rem; left: 0; width: 55rem; color: var(--gray-4); }
+#gap .gcol--1 { left: 6.41rem; }
+#gap .gcol--2 { left: calc(33.33% + 2.996rem); }
+#gap .gcol--3 { left: calc(66.67% - 0.42rem); }
+
+/* ─── 6. CAR ESPERANTO (붉은 배경) ─── */
+#ce { background: #000; color: #fff; }
+#ce .bg { position: absolute; inset: 0; }
+#ce .bg img { width: 100%; height: 100%; object-fit: cover; }
+#ce .mark { position: absolute; left: 7.24rem; top: 21.21rem; width: 65.72rem; height: 6.22rem; }
+#ce .mark img { width: 100%; height: 100%; }
+#ce .head { position: absolute; left: 6.35rem; top: 30.42rem; width: 76.8rem; font-weight: 500; font-size: 3.2rem; line-height: 4.8rem; letter-spacing: -0.096rem; }
+#ce .desc { position: absolute; left: 6.35rem; top: 36.18rem; width: 61.29rem; font-weight: 500; font-size: 1.5rem; line-height: 2.15rem; letter-spacing: -0.015rem; }
+
+/* ─── 7·8. 채원 섹션 · 3D 변환기 (iframe, 각자 스크롤) ─── */
+.embed { position: relative; width: 100%; height: 100vh; height: 100svh; background: #000; }
+.embed iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; display: block; }
+.embed .embed-tag { position: absolute; right: 2.4rem; bottom: 2rem; z-index: 2; color: rgba(255,255,255,.55); font-family: var(--sans-en); font-weight: 500; font-size: 1.1rem; letter-spacing: .02em; pointer-events: none; }
+
+/* ─── 9. Passenger Interaction (GUI · Polestar 식 고정 캡션) ─── */
+.gui { position: relative; background: #000; color: #fff; }
+.gui .gui-pin { position: sticky; top: 0; height: 100vh; height: 100svh; overflow: hidden; }
+.gui .gui-track { position: absolute; left: 0; top: 50%; width: 192rem; transform: translateY(-50%); will-change: transform; }
+.gui .gui-track.tall { top: 0; transform: none; }
+.gui .shot { position: relative; width: 192rem; overflow: hidden; }
+.gui .shot img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.gui .cap { position: absolute; left: 6.4rem; bottom: 2.55rem; width: 58.14rem; z-index: 3; }
+.gui .cap .lab { color: var(--red); }
+.gui .cap .lab .en { font-family: var(--sans-en); font-weight: 500; }
+.gui .check { position: absolute; width: 6.75rem; height: 5.66rem; }
+.gui .check img { width: 107%; height: 100%; }
+/* 04 문장 카드 */
+.gui .card { position: absolute; left: calc(16.67% + 9.98rem); top: 16.69rem; width: 99.4rem; height: 21rem; }
+.gui .card .bg { position: absolute; inset: 0.2rem 0 0 0; background: rgba(14,14,16,.62); border-radius: .8rem; }
+.gui .card .tl { position: absolute; left: 0; right: 0; top: 0; height: .2rem; background: #fff; }
+.gui .card .tv { position: absolute; top: -0.15rem; width: .2rem; height: 2.9rem; background: #fff; }
+.gui .card .tv--l { left: 0; } .gui .card .tv--r { right: 0; }
+.gui .card .txt { position: absolute; left: 6.22rem; top: 5.55rem; font-weight: 500; font-size: 3.25rem; line-height: 4.95rem; letter-spacing: 0.0325rem; white-space: pre; }
+/* 05 노티스 */
+.gui .notice { position: absolute; left: calc(33.33% + 10.97rem); top: 47.56rem; font-weight: 500; font-size: 1.894rem; line-height: 2.884rem; letter-spacing: .019rem; white-space: pre; }
+.gui .icon { position: absolute; width: 6.75rem; height: 5.66rem; }
+.gui .icon img { width: 107%; height: 100%; }
+
+/* ─── 10. 시나리오 인트로 ─── */
+#scenario { background: #000; color: #fff; }
+#scenario .still { position: absolute; left: 50%; top: 12.4rem; width: 115.3rem; height: 64.15rem; transform: translateX(-50%); overflow: hidden; }
+#scenario .still img { width: 100%; height: 100%; object-fit: cover; opacity: .7; }
+#scenario .corner { position: absolute; width: 2.69rem; height: 2.69rem; }
+#scenario .corner img { width: 104.64%; height: 104.64%; margin: -4.64% 0 0 -4.64%; }
+#scenario .corner.tl { left: calc(16.67% + 13.8rem); top: 19.55rem; }
+#scenario .corner.tr { left: calc(75% - 0.49rem); top: 19.55rem; transform: rotate(180deg) scaleY(-1); }
+#scenario .corner.br { left: calc(75% - 0.49rem); top: 68.25rem; transform: rotate(180deg); }
+#scenario .corner.bl { left: calc(16.67% + 13.8rem); top: 68.25rem; transform: scaleY(-1); }
+#scenario .cross { position: absolute; left: calc(41.67% + 13.31rem); top: 42.23rem; width: 5.385rem; height: 5.385rem; }
+#scenario .cross img { width: 100%; height: 100%; }
+#scenario .title { position: absolute; left: 6.4rem; top: 88.45rem; font-weight: 500; font-size: 4rem; line-height: 5.3rem; letter-spacing: -0.108rem; white-space: nowrap; }
+#scenario .lead { position: absolute; left: calc(75% + 3.05rem); top: 79.1rem; width: 38.55rem; font-weight: 400; font-size: 1.5rem; line-height: 2.4rem; letter-spacing: -0.0405rem; }
+#scenario .play { position: absolute; left: calc(75% + 3.05rem); top: 94.8rem; width: 38.55rem; height: 4.25rem; border-radius: .45rem; background: #fff; color: #000; font-weight: 500; font-size: 1.6rem; line-height: 2.4rem; letter-spacing: -0.0432rem; display: grid; place-items: center; transition: transform .25s ease, background .25s; }
+#scenario .play:hover { background: #eaeaea; }
+
+/* 시나리오 뷰어 (Play → 화면 전환 오버레이) */
+#viewer { position: fixed; inset: 0; z-index: 80; background: #000; color: #fff; display: none; overflow: hidden; }
+#viewer.is-open { display: block; }
+#viewer .vframe { position: absolute; left: 0; top: 50%; width: 192rem; height: 108rem; transform: translateY(-50%); }
+#viewer .num { position: absolute; left: 6.35rem; top: 24.23rem; transform: translateY(-50%); font-weight: 600; font-size: 21.5rem; line-height: 1.2; letter-spacing: -0.58rem; white-space: nowrap; }
+#viewer .vid { position: absolute; left: calc(33.33% + 14.16rem); top: 16.88rem; width: 107.42rem; height: 60.77rem; background: #111; overflow: hidden; }
+#viewer .vid video, #viewer .vid img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+#viewer .vid .dummy { position: absolute; left: 1.6rem; top: 1.4rem; font-family: var(--sans-en); font-weight: 500; font-size: 1.2rem; letter-spacing: .04em; color: rgba(255,255,255,.7); padding: .35rem .7rem; border: .1rem solid rgba(255,255,255,.35); border-radius: .3rem; }
+#viewer .vt { position: absolute; left: 6.35rem; top: 58.05rem; width: 27.85rem; white-space: pre-wrap; }
+#viewer .vb { position: absolute; left: 6.35rem; top: 69.05rem; width: 43rem; }
+#viewer .strip { position: absolute; left: 6.35rem; top: 87.65rem; display: flex; gap: 14.5rem; align-items: center; will-change: transform; transition: transform .7s cubic-bezier(.65,0,.2,1); }
+#viewer .strip .it { width: 11rem; flex: 0 0 auto; cursor: pointer; display: flex; flex-direction: column; gap: .7rem; transition: opacity .4s; }
+#viewer .strip .it .th { width: 11rem; height: 6.25rem; overflow: hidden; background: #222; }
+#viewer .strip .it .th img { width: 100%; height: 100%; object-fit: cover; }
+#viewer .strip .it .lb { font-weight: 500; font-size: 1.4rem; line-height: 1.9rem; letter-spacing: -0.0378rem; }
+#viewer .strip .it.is-past { opacity: 0; pointer-events: none; }
+#viewer .close { position: absolute; right: 6.4rem; top: 3.15rem; font-family: var(--sans-en); font-weight: 700; font-size: 1.9rem; line-height: 1.9rem; letter-spacing: -0.0513rem; color: #fff; z-index: 3; }
+#viewer .close:hover { opacity: .6; }
+#viewer .hint { position: absolute; right: 6.4rem; bottom: 2.6rem; font-family: var(--sans-en); font-weight: 500; font-size: 1.2rem; letter-spacing: .04em; color: rgba(255,255,255,.5); }
+#viewer .scene { position: absolute; inset: 0; opacity: 0; pointer-events: none; transition: opacity .5s ease; }
+#viewer .scene.is-active { opacity: 1; pointer-events: auto; }
+/* 픽셀 디졸브 (화면 전환) */
+#dissolve { position: fixed; inset: 0; z-index: 90; pointer-events: none; display: grid; grid-template-columns: repeat(24, 1fr); grid-template-rows: repeat(14, 1fr); }
+#dissolve i { display: block; background: #000; opacity: 0; }
+
+/* ─── 11. 엔딩 크레딧 (호수 위 글자가 올라감) ─── */
+#credits { height: 100vh; background: #000; color: #fff; }
+#credits .bg { position: absolute; inset: 0; }
+#credits .bg img { width: 100%; height: 100%; object-fit: cover; }
+#credits .roll { position: absolute; left: calc(50% + 0.55rem); top: 9.35rem; width: 50.95rem; transform: translateX(-50%); display: flex; flex-direction: column; gap: 16.3rem; align-items: center; will-change: transform; }
+#credits .blk { display: flex; flex-direction: column; gap: 3rem; align-items: center; width: 100%; text-align: center; }
+#credits .blk .lg { display: block; }
+#credits .lbl { font-family: var(--sans-en); font-weight: 500; font-size: 1.6rem; line-height: 1.9rem; letter-spacing: -0.0432rem; }
+#credits .nm { font-family: var(--sans-en); font-weight: 700; font-size: 3.5rem; line-height: 3.05rem; letter-spacing: -0.0945rem; white-space: nowrap; margin-top: -2rem; }
+#credits .nm.row { display: flex; gap: 0.6rem; justify-content: center; white-space: pre; }
+#credits .blk > div.txt { display: flex; flex-direction: column; gap: 1rem; align-items: center; width: 100%; }
+#credits .nm { margin-top: 0; }
+#credits .lg--cep { width: 4.36rem; height: 9.65rem; }
+#credits .lg--cep svg { width: 100%; height: 100%; fill: #fff; }
+#credits .lg--hgu { width: 9.45rem; height: 3.85rem; }
+#credits .lg--lg { width: 26.29rem; height: 3.85rem; overflow: hidden; }
+#credits .lg--lg img { width: 100%; height: 141.52%; margin-top: -20.77%; object-fit: cover; }
+#credits .lg--cross { width: 2.31rem; height: 3.85rem; }
+#credits .lg img, #credits .lg--hgu img { width: 100%; height: 100%; }
+#credits .blk--4 { gap: 3.2rem; }
+
+/* ─── 12. Designers ─── */
+#designers { background: #fff; color: #000; }
+#designers .wrap { position: absolute; left: 6.35rem; top: 6.2rem; width: 115.8rem; display: flex; flex-direction: column; gap: 7.25rem; }
+#designers .person { display: flex; flex-direction: column; gap: 9.25rem; }
+#designers .name { font-family: var(--sans-en); font-weight: 700; font-size: 1.906rem; line-height: 1.9rem; letter-spacing: -0.0515rem; }
+#designers .row { display: flex; justify-content: space-between; align-items: flex-start; }
+#designers .por { width: 21.46rem; height: 27.19rem; overflow: hidden; background: #fff; }
+#designers .por img { width: 100%; height: 100%; object-fit: cover; }
+#designers .info { width: 25.05rem; display: flex; flex-direction: column; gap: 3.4rem; font-size: 1.5rem; line-height: 2.1rem; letter-spacing: -0.0405rem; }
+#designers .info .intro { font-weight: 400; white-space: nowrap; }
+#designers .info .grp { display: flex; flex-direction: column; gap: 3.4rem; text-transform: capitalize; }
+#designers .info .k { font-family: var(--sans-en); font-weight: 500; }
+#designers .info .v { font-family: var(--sans-en); font-weight: 400; }
+#designers .info .v.w { width: 27.75rem; }
+#designers .info a { text-decoration: underline; text-underline-position: from-font; }
+#designers .info a:hover { opacity: .5; }
+
+/* ─── 13. 푸터 (도트 모션 + 링크) ─── */
+#footer { background: #080808; color: #fff; }
+#footer .stage-wrap { position: absolute; left: 0; top: 0; width: 192rem; height: 66rem; }
+#footer canvas { width: 100%; height: 100%; display: block; touch-action: none; outline: none; cursor: default; }
+#footer canvas.hot { cursor: pointer; }
+#footer .f-loc { position: absolute; left: 6.4rem; top: 74.31rem; font-family: var(--sans-en); font-weight: 700; font-size: 1.906rem; line-height: 1.9rem; letter-spacing: -0.0515rem; color: var(--gray-1); white-space: nowrap; }
+#footer .f-loc2 { position: absolute; left: 6.4rem; top: 77.75rem; font-family: var(--sans-en); font-weight: 400; font-size: 1.906rem; line-height: 2.25rem; letter-spacing: -0.0515rem; color: var(--gray-2); white-space: pre; }
+#footer .f-nav { position: absolute; left: calc(50% + 1.2rem); top: 74.31rem; width: 8.15rem; display: flex; flex-direction: column; gap: 2.4rem; font-family: var(--sans-en); font-weight: 400; font-size: 1.906rem; line-height: 1.9rem; letter-spacing: -0.0515rem; color: var(--gray-1); }
+#footer .f-nav a:hover { color: #fff; }
+#footer .f-txt { position: absolute; left: calc(75% + 3.055rem); top: 74.31rem; width: 38.55rem; font-weight: 400; font-size: 1.5rem; line-height: 2.4rem; letter-spacing: -0.0405rem; color: #fff; white-space: pre-wrap; }
+#footer .f-btn { position: absolute; left: calc(75% + 3.055rem); top: 84.86rem; width: 38.55rem; height: 4.25rem; border: .15rem solid var(--gray-3); border-radius: .45rem; display: grid; place-items: center; font-weight: 500; font-size: 1.6rem; line-height: 2.4rem; letter-spacing: -0.0432rem; color: #fff; transition: background .25s, color .25s; }
+#footer .f-btn:hover { background: #fff; color: #000; }
+#footer .grain { position: absolute; inset: 0; pointer-events: none; opacity: .028; background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.92' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Cpath fill='%23fff' d='M0 0h180v180H0z' filter='url(%23g)'/%3E%3C/svg%3E"); }
+
+/* ─── 줄 단위 등장 (Kalkbrenner line-mask) ─── */
+.line-mask { overflow: hidden; }
+.line-mask > span { display: block; transform: translateY(110%); transition: transform .8s cubic-bezier(.2,.7,.2,1); }
+.is-in .line-mask > span { transform: none; }
+
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; animation: none !important; } }
