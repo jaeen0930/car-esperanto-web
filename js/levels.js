@@ -79,6 +79,10 @@
       const s = i - act;
       let x, y, ly, op = 1, sc = 1, lop = 1;
       if (s >= 0) { const pos = slot(s); x = pos.x; y = pos.y; ly = pos.ly; }
+      else if (i === N - 2) {  // Level 5 는 위로 올라가며 빠진다 (11-3 재은: 5도 올라가고 4가 다시 올라온다)
+        const e = easeOutCubic(cs(-s));
+        x = X[0]; y = Y[0] - 40 * e; ly = LINE[0] - 40 * e; op = 1 - cs(-s * 2.4); lop = 1 - cs(-s * 3);
+      }
       else {                   // 지나간 줄: 왼쪽으로 쏙 빠진다
         const e = easeOutCubic(cs(-s));
         x = X[0] - OUT_X * e; y = Y[0] - 4 * e; ly = LINE[0] - 4 * e; op = 1 - cs(-s * 1.15); lop = 1 - cs(-s * 2.5);

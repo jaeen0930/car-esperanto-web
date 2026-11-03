@@ -57,3 +57,8 @@ python3 -m http.server 8000
 - GUI: 사진은 멈추지 않고 흐르고 캡션만 sticky(아래 9.6rem). 04 · 05 · Vision 사진은 피그마 새 판으로 교체.
 - 채원 단(V18): Pretendard · ABC Diatype, 배경 검정, 3D 장면(남색 → 검정 · 격자 어둡게 · 라벨 검정), 3D 단 끝에서 바깥 페이지로 스크롤이 이어짐, '직접 바꿔보세요' 띠는 `dotgrammar/index.html?embed=motion`(도트 그래머 변환기 v11 의 숨쉬기 모션 + 전체 격자).
 - 방명록 버튼 → 키오스크 `https://car-esperanto-guestbook.netlify.app/kiosk.html?screen=both`.
+
+## 11-03 저녁 · 3차
+- 채원 단 그리드: 가운데 1248px 상자 → 다른 페이지와 같은 양옆 여백(6.4rem = 3.3333vw). 3D 장면 글 시작점도 같은 선.
+- 3D 변환기: 재은이 준 새 판(`car-esperanto-web.html`, 11-3 · 가림막 · 영어 줄 · 레일 이름표 · 주문 문법 · 모델 압축)으로 교체하고, 쿠페 뚜껑 메움 · 도형 크기만 다시 얹음. 섹션 썸네일 새로, 닫기 버튼은 위 가운데 "✕ 닫기".
+- 레벨: Level 5 는 왼쪽이 아니라 위로 올라가며 빠지고, 그 아래 Level 4 가 다시 올라와 커지며 Why Level 4.

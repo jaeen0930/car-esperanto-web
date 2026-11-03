@@ -198,8 +198,9 @@ button { font: inherit; color: inherit; background: none; border: 0; padding: 0;
 #conv-overlay.is-open { display: block; }
 #conv-overlay .cframe { position: absolute; inset: 0; }
 #conv-overlay .cframe iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; display: block; background: #000; }
-#conv-overlay .close { position: absolute; right: 2.4rem; top: 2.2rem; z-index: 3; width: 4.4rem; height: 4.4rem; border-radius: 50%; background: rgba(255,255,255,.92); color: #000; font-family: var(--sans-en); font-weight: 500; font-size: 2rem; line-height: 1; display: grid; place-items: center; transition: transform .2s, background .2s; }
-#conv-overlay .close:hover { background: #fff; transform: scale(1.06); }
+#conv-overlay .close { position: absolute; left: 50%; top: 1.6rem; transform: translateX(-50%); z-index: 3; height: 4rem; padding: 0 2rem; border-radius: 2rem; background: rgba(10,10,12,.86); color: #fff; font-family: var(--sans-kr); font-weight: 500; font-size: 1.5rem; line-height: 1; display: flex; align-items: center; gap: .8rem; box-shadow: 0 .4rem 2rem rgba(0,0,0,.25); transition: background .2s, transform .2s; }
+#conv-overlay .close:hover { background: #000; transform: translateX(-50%) scale(1.04); }
+#conv-overlay .close b { font-weight: 400; font-size: 1.7rem; }
 body.conv-open { overflow: hidden; }
 
 /* ─── 9. Passenger Interaction (GUI · Polestar 식 고정 캡션) ───
