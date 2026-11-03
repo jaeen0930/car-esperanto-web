@@ -10,11 +10,11 @@
   const FROM = 9.35, TO = -33.2 - 14;      // rem (프레임 118 top 187 → 프레임 123 top -664, 조금 더)
   function render(p) {
     const r = rem();
-    const y = (FROM + (TO - FROM) * seg(p, 0, 0.78)) * r;
+    const y = (FROM + (TO - FROM) * seg(p, 0, 0.92)) * r;
     roll.style.top = '0px';
     roll.style.transform = `translate(-50%, ${y.toFixed(1)}px)`;
-    band.set(seg(p, 0.72, 1));
   }
   ScrollTrigger.create({ trigger: sec, start: 'top top', end: '+=220%', pin: true, scrub: 0.5, onUpdate: s => render(s.progress), onRefresh: s => render(s.progress) });
   render(0);
+  CE.bandAfter(sec, band, { span: 0.7 });   // 핀이 풀린 뒤 크레딧이 올라가며 흰 밴드가 차오른다
 })();

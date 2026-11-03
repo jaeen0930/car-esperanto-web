@@ -28,3 +28,18 @@ CE.PixelBand = function (el) {
   set(0);
   return { set, el };
 };
+
+/* 섹션이 (핀이 풀린 뒤) 화면 위로 밀려 나갈 때 밴드가 차오른다.
+   섹션 아랫변이 화면 아래에서 화면 높이의 span 만큼 올라오는 동안 0→1. 다 차면 다음 단의 빈 색(.gapblk)만 남는다. */
+CE.bandAfter = function (section, band, opt) {
+  const span = (opt && opt.span) || 0.7;
+  function tick() {
+    const vh = window.innerHeight, b = section.getBoundingClientRect().bottom;
+    band.set((vh - b) / (vh * span));
+  }
+  window.addEventListener('scroll', tick, { passive: true });
+  window.addEventListener('resize', tick);
+  if (window.ScrollTrigger) ScrollTrigger.addEventListener('refresh', tick);
+  tick();
+  return tick;
+};

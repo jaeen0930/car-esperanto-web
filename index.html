@@ -59,6 +59,7 @@
   </div>
   <div class="pxband" id="px-hero" data-cols="24" data-rows="3" style="--px-color:#fff"></div>
 </section>
+<div class="gapblk gapblk--white" data-nav="light" aria-hidden="true"></div>
 <div id="aidv-anchor"></div>
 
 <!-- ───────── 2. 자율주행 레벨 ───────── -->
@@ -76,7 +77,8 @@
   </div>
 </section>
 
-<!-- ───────── 3. Everyone Speaks ───────── -->
+<!-- ───────── 3·4·5. Everyone Speaks · The Gap · Vision (장면이 겹쳐 올라오는 스택) ───────── -->
+<div id="std-wrap">
 <section id="everyone" class="sec sec--white std" data-nav="light">
   <div class="frame">
     <div class="copy t-body">
@@ -122,7 +124,10 @@
     <div class="trio trio--2"><img src="assets/img/vi2.jpg" alt=""></div>
     <div class="trio trio--3"><img src="assets/img/vi3.jpg" alt=""></div>
   </div>
+  <div class="pxband" id="px-vision" data-cols="24" data-rows="3" style="--px-color:#000"></div>
 </section>
+</div>
+<div class="gapblk gapblk--black" data-nav="dark" aria-hidden="true"></div>
 
 <!-- ───────── 6. CAR ESPERANTO ───────── -->
 <section id="ce" class="sec sec--black" data-nav="dark">
@@ -140,97 +145,93 @@
 </section>
 
 <!-- ───────── 8. 3D 변환기 ───────── -->
-<section id="converter" class="embed" data-nav="hide">
-  <iframe src="converter/index.html" title="CAR ESPERANTO · 3D 체험" loading="lazy"></iframe>
+<section id="converter" class="sec sec--black" data-nav="dark">
+  <div class="frame">
+    <div class="conv-copy t-body">
+      <p class="en">3D Converter</p>
+      <p>문장을 입력하면 차체 위 시각 언어로 바뀝니다. 차를 고르고, 거리를 바꾸고, 직접 돌려 보세요.</p>
+    </div>
+    <button class="conv-thumb" id="conv-open" type="button" aria-label="3D 변환기 열기">
+      <img src="assets/img/conv-thumb.jpg" alt="">
+      <span class="pill"><span class="dot"></span>Open 3D Converter ↗</span>
+    </button>
+  </div>
 </section>
 
 <!-- ───────── 9. Passenger Interaction (GUI) ───────── -->
 <section id="gui" data-nav="dark">
 
-  <div class="gui" data-span="1">
-    <div class="gui-pin">
-      <div class="gui-track">
-        <div class="shot" style="height:108rem"><img src="assets/img/gui01.jpg" alt=""></div>
-      </div>
-      <div class="cap t-body">
-        <p class="lab"><span class="en">01. AR HUD · Transparent OLED Window</span></p>
-        <p>필요한 정보만 안내하고, 결정이 필요하면 탑승자에게 묻습니다.</p>
-        <p>차량 AI는 주변 차량과 기계의 표현을 읽고 카 에스페란토로 응답하며, 이동의 결과를 바꾸지 않는 대화는 진행 상황만 한 줄로 알리고, 결과가 바뀌거나 탑승자의 동의가 필요한 요청만 질문으로 표시합니다. 공통 안내는 전면 AR HUD에, 개별 안내는 좌석 가까운 투명 OLED 창문에 나타납니다. 필요한 순간에만 확인 한 번으로 결정하므로, 이동에 집중하면서도 중요한 결정은 탑승자의 손에 남습니다.</p>
-      </div>
+  <div class="gui">
+    <div class="shots">
+      <div class="shot" style="height:108rem"><img src="assets/img/gui01.jpg" alt=""></div>
     </div>
+    <div class="cap-wrap"><div class="cap t-body">
+      <p class="lab"><span class="en">01. AR HUD · Transparent OLED Window</span></p>
+      <p>필요한 정보만 안내하고, 결정이 필요하면 탑승자에게 묻습니다.</p>
+      <p>차량 AI는 주변 차량과 기계의 표현을 읽고 카 에스페란토로 응답하며, 이동의 결과를 바꾸지 않는 대화는 진행 상황만 한 줄로 알리고, 결과가 바뀌거나 탑승자의 동의가 필요한 요청만 질문으로 표시합니다. 공통 안내는 전면 AR HUD에, 개별 안내는 좌석 가까운 투명 OLED 창문에 나타납니다. 필요한 순간에만 확인 한 번으로 결정하므로, 이동에 집중하면서도 중요한 결정은 탑승자의 손에 남습니다.</p>
+    </div></div>
   </div>
 
-  <div class="gui" data-span="1">
-    <div class="gui-pin">
-      <div class="gui-track">
-        <div class="shot" style="height:107.39rem"><img src="assets/img/gui02.jpg" alt="차 안에서 앞을 가리키는 남자"></div>
-      </div>
-      <div class="cap t-body">
-        <p class="lab"><span class="en">02. Multimodal Interaction</span></p>
-        <p>멀티모달 인터페이스로 차량 AI와 커뮤니케이션합니다.</p>
-        <p>보이스 투 보이스(Voice-to-Voice), 제스처, 터치로 차량 AI와 대화하며, 창밖의 대상을 말로 부르거나 손으로 가리켜 지목합니다. 답은 같은 방식으로 자기 창문에 돌아오고, 음성 안내는 끌 수 있습니다. 상황과 함께 탄 사람에 맞춰 누구나 자기 방식으로 뜻을 전합니다.</p>
-      </div>
+  <div class="gui">
+    <div class="shots">
+      <div class="shot" style="height:107.39rem"><img src="assets/img/gui02.jpg" alt="차 안에서 앞을 가리키는 남자"></div>
     </div>
+    <div class="cap-wrap"><div class="cap t-body">
+      <p class="lab"><span class="en">02. Multimodal Interaction</span></p>
+      <p>멀티모달 인터페이스로 차량 AI와 커뮤니케이션합니다.</p>
+      <p>보이스 투 보이스(Voice-to-Voice), 제스처, 터치로 차량 AI와 대화하며, 창밖의 대상을 말로 부르거나 손으로 가리켜 지목합니다. 답은 같은 방식으로 자기 창문에 돌아오고, 음성 안내는 끌 수 있습니다. 상황과 함께 탄 사람에 맞춰 누구나 자기 방식으로 뜻을 전합니다.</p>
+    </div></div>
   </div>
 
-  <div class="gui" data-span="1.5">
-    <div class="gui-pin">
-      <div class="gui-track tall" data-scroll-h="160.64">
-        <div class="shot" style="height:160.64rem">
-          <img src="assets/img/gui03.jpg" alt="">
-          <div class="check" style="left:calc(75% + 1.54rem);top:59.41rem"><img src="assets/img/1a754.svg" alt=""></div>
-        </div>
-      </div>
-      <div class="cap t-body">
-        <p class="lab"><span class="en">03. AR Marker</span></p>
-        <p>AI가 파악한 대화 상대를 확인합니다.</p>
-        <p>탑승자가 지목했든 차량 AI가 먼저 말을 걸었든, 지금 대화가 오가는 상대 위에 AR 표시가 나타나고 차량 AI는 위치와 특징으로 상대를 설명합니다. 표시는 상대의 실제 위치에 고정되어 거리에 따라 형태가 달라지고, 함께 뜨는 정보는 확인 대기, 대화 진행 등 단계에 따라 바뀌며, 탑승자는 확인하거나 변경, 취소할 수 있습니다. 확인된 상대만 받는 이가 되어, 말이 엉뚱한 곳으로 가는 전달의 간극을 보내기 전에 막습니다.</p>
+  <div class="gui">
+    <div class="shots">
+      <div class="shot" style="height:160.64rem">
+        <img src="assets/img/gui03.jpg" alt="">
+        <div class="check" style="left:calc(75% + 1.54rem);top:59.41rem"><img src="assets/img/1a754.svg" alt=""></div>
       </div>
     </div>
+    <div class="cap-wrap"><div class="cap t-body">
+      <p class="lab"><span class="en">03. AR Marker</span></p>
+      <p>AI가 파악한 대화 상대를 확인합니다.</p>
+      <p>탑승자가 지목했든 차량 AI가 먼저 말을 걸었든, 지금 대화가 오가는 상대 위에 AR 표시가 나타나고 차량 AI는 위치와 특징으로 상대를 설명합니다. 표시는 상대의 실제 위치에 고정되어 거리에 따라 형태가 달라지고, 함께 뜨는 정보는 확인 대기, 대화 진행 등 단계에 따라 바뀌며, 탑승자는 확인하거나 변경, 취소할 수 있습니다. 확인된 상대만 받는 이가 되어, 말이 엉뚱한 곳으로 가는 전달의 간극을 보내기 전에 막습니다.</p>
+    </div></div>
   </div>
 
-  <div class="gui" data-span="2">
-    <div class="gui-pin">
-      <div class="gui-track tall" data-scroll-h="215.03">
-        <div class="shot" style="height:107.48rem"><img src="assets/img/gui04a.jpg" alt=""></div>
-        <div class="shot" style="height:107.55rem">
-          <img src="assets/img/gui04b.jpg" alt="">
-          <div class="card">
-            <div class="bg"></div><div class="tl"></div><div class="tv tv--l"></div><div class="tv tv--r"></div>
-            <p class="txt">A cat suddenly ran into the road, so we had to brake.
+  <div class="gui">
+    <div class="shots">
+      <div class="shot" style="height:107.48rem"><img src="assets/img/gui04a.jpg" alt="앞을 바라보는 탑승자"></div>
+      <div class="shot" style="height:107.55rem">
+        <img src="assets/img/gui04b.jpg" alt="앞차 뒤 범퍼에 뜬 카 에스페란토 문장">
+        <div class="card card--v2">
+          <div class="bg"></div><div class="tl"></div><div class="tv tv--l"></div><div class="tv tv--r"></div>
+          <p class="txt">A cat suddenly ran into the road, so we had to brake.
 We're sorry for the sudden stop.</p>
-          </div>
-          <div class="check" style="left:calc(66.67% - 2.95rem);top:53.78rem"><img src="assets/img/1a754.svg" alt=""></div>
         </div>
-      </div>
-      <div class="cap t-body">
-        <p class="lab"><span class="en">04. Message Card</span></p>
-        <p>탑승자의 의사를 문장으로 구성해 전달하고, 응답을 확인합니다.</p>
-        <p>차량 AI는 탑승자의 말에서 상황과 요구를 가려내 카 에스페란토 문법의 문장으로 바꾸고, 욕설·비하 표현은 제외합니다. 전송 전에는 카드에서 승인하거나 수정하고, 전송 뒤에는 같은 카드가 표시 중인 내용과 상대의 응답으로 바뀌며, 요청을 중단하거나 판단 이유를 물을 수 있습니다. 감정은 걸러지고 뜻은 남아 누구나 같은 뜻으로 읽는 문장이 되고, 전해졌는지 어떻게 답했는지 모르던 확인의 간극이 닫힙니다.</p>
+        <div class="check" style="left:calc(66.67% - 2.95rem);top:53.78rem"><img src="assets/img/1a754.svg" alt=""></div>
       </div>
     </div>
+    <div class="cap-wrap"><div class="cap t-body">
+      <p class="lab"><span class="en">04. Message Card</span></p>
+      <p>탑승자의 의사를 문장으로 구성해 전달하고, 응답을 확인합니다.</p>
+      <p>차량 AI는 탑승자의 말에서 상황과 요구를 가려내 카 에스페란토 문법의 문장으로 바꾸고, 욕설·비하 표현은 제외합니다. 전송 전에는 카드에서 승인하거나 수정하고, 전송 뒤에는 같은 카드가 표시 중인 내용과 상대의 응답으로 바뀌며, 요청을 중단하거나 판단 이유를 물을 수 있습니다. 감정은 걸러지고 뜻은 남아 누구나 같은 뜻으로 읽는 문장이 되고, 전해졌는지 어떻게 답했는지 모르던 확인의 간극이 닫힙니다.</p>
+    </div></div>
   </div>
 
-  <div class="gui" data-span="2">
-    <div class="gui-pin">
-      <div class="gui-track tall" data-scroll-h="196.33">
-        <div class="shot" style="height:107.45rem">
-          <img src="assets/img/gui05a.jpg" alt="">
-        </div>
-        <div class="shot" style="height:88.86rem">
-          <img src="assets/img/gui05b.jpg" alt="">
-          <p class="notice">NOTICE MODE
+  <div class="gui">
+    <div class="shots">
+      <div class="shot" style="height:107.45rem"><img src="assets/img/gui05a.jpg" alt="잠든 아이 · 근적외선으로 본 창문 표시"></div>
+      <div class="shot" style="height:105.72rem">
+        <img src="assets/img/gui05b.jpg" alt="창문 너머 옆 차를 보는 탑승자">
+        <p class="notice">NOTICE MODE
 Child on board.</p>
-          <div class="icon" style="left:calc(66.67% + 3.98rem);top:59.47rem"><img src="assets/img/c7c0a.svg" alt=""></div>
-          <div class="check" style="left:calc(91.67% - 3.15rem);top:77.5rem"><img src="assets/img/5a242.svg" alt=""></div>
-        </div>
-      </div>
-      <div class="cap t-body">
-        <p class="lab"><span class="en">05. Notice Mode</span></p>
-        <p>노티스 모드의 표시 내용은 탑승자가 변경하거나 중단할 수 있습니다.</p>
-        <p>노티스 모드는 상대를 지목하지 않고 설정한 내용을 창문의 근적외선 LED로 주변에 지속적으로 알리며, 사람 눈에는 보이지 않고 차량과 기계만 읽습니다. 차량 AI가 제안하거나 탑승자가 어느 좌석에서든 직접 설정하고, 주변 차량의 노티스는 차량 AI가 주행에 반영하되 자기 행동을 바꾼 이유가 될 때만 작은 표시로 알리며 탑승자는 궁금할 때 펼쳐 봅니다. 무엇을 알릴지와 언제 볼지를 탑승자가 정하므로, 도로의 상태는 알되 알림에 시달리지 않습니다.</p>
+        <div class="check" style="left:131.98rem;top:59.47rem"><img src="assets/img/1a754.svg" alt=""></div>
       </div>
     </div>
+    <div class="cap-wrap"><div class="cap t-body">
+      <p class="lab"><span class="en">05. Notice Mode</span></p>
+      <p>노티스 모드의 표시 내용은 탑승자가 변경하거나 중단할 수 있습니다.</p>
+      <p>노티스 모드는 상대를 지목하지 않고 설정한 내용을 창문의 근적외선 LED로 주변에 지속적으로 알리며, 사람 눈에는 보이지 않고 차량과 기계만 읽습니다. 차량 AI가 제안하거나 탑승자가 어느 좌석에서든 직접 설정하고, 주변 차량의 노티스는 차량 AI가 주행에 반영하되 자기 행동을 바꾼 이유가 될 때만 작은 표시로 알리며 탑승자는 궁금할 때 펼쳐 봅니다. 무엇을 알릴지와 언제 볼지를 탑승자가 정하므로, 도로의 상태는 알되 알림에 시달리지 않습니다.</p>
+    </div></div>
   </div>
 
 </section>
@@ -275,6 +276,7 @@ Child on board.</p>
   </div>
   <div class="pxband" id="px-credits" data-cols="24" data-rows="3" style="--px-color:#fff"></div>
 </section>
+<div class="gapblk gapblk--white" data-nav="light" aria-hidden="true"></div>
 
 <!-- ───────── 12. Designers ───────── -->
 <section id="designers" class="sec sec--white" data-nav="light">
@@ -287,7 +289,7 @@ Child on board.</p>
           <div class="info">
             <p class="intro">기술과 사람이 만나는 지점에서,<br>더 나은 경험을 설계합니다.</p>
             <div class="grp">
-              <div><p class="k">Interested</p><p class="v">UX Research · Interection Design</p></div>
+              <div><p class="k">Interested</p><p class="v">UX Research · Interaction Design</p></div>
               <div><p class="k">Major</p><p class="v w">Product Design · AI Convergence &amp; Entrepreneurship</p></div>
               <div><p class="k">Contact</p>
                 <p class="v"><a href="mailto:jaeen0930@gmail.com" target="_blank" rel="noopener">Mail</a> ↗　</p>
@@ -305,7 +307,7 @@ Child on board.</p>
           <div class="info">
             <p class="intro">사용자에게 의미 있는 경험을<br>설계하는 디자이너입니다. </p>
             <div class="grp">
-              <div><p class="k">Interested</p><p class="v">Ux research · Interaction Design</p></div>
+              <div><p class="k">Interested</p><p class="v">UX research · Interaction Design</p></div>
               <div><p class="k">Major</p><p class="v">Product · Visual DESIGN</p></div>
               <div><p class="k">Contact</p>
                 <p class="v"><a href="mailto:chaewon030402@gmail.com" target="_blank" rel="noopener">Mail</a> ↗　</p>
@@ -336,7 +338,7 @@ Pohang</p>
     <p class="f-txt">우리가 시작한 도로 위 새로운 대화는 여기서 끝나지 않습니다.
 CAR ESPERANTO를 경험한 당신의 생각을 더해, 다음 이야기를
 함께 만들어 주세요.</p>
-    <a class="f-btn" id="guestbook-link" href="https://car-esperanto-guestbook.netlify.app/" target="_blank" rel="noopener">Leave Your Mark ↗</a>
+    <a class="f-btn" id="guestbook-link" href="https://car-esperanto-guestbook.netlify.app/kiosk.html?screen=both" target="_blank" rel="noopener">Leave Your Mark ↗</a>
   </div>
 </section>
 
@@ -350,13 +352,21 @@ CAR ESPERANTO를 경험한 당신의 생각을 더해, 다음 이야기를
 </div>
 <div id="dissolve" aria-hidden="true"></div>
 
+<!-- ───────── 3D 변환기 (오버레이) ───────── -->
+<div id="conv-overlay" aria-hidden="true">
+  <button class="close" id="conv-close" type="button" aria-label="닫기">✕</button>
+  <div class="cframe" id="conv-frame"></div>
+</div>
+
 <script src="js/vendor/gsap.min.js"></script>
 <script src="js/vendor/ScrollTrigger.min.js"></script>
 <script src="js/pixelfont.js"></script>
 <script src="js/pixelband.js"></script>
 <script src="js/hero.js"></script>
 <script src="js/levels.js"></script>
+<script src="js/std.js"></script>
 <script src="js/gui.js"></script>
+<script src="js/converter.js"></script>
 <script src="js/scenario.js"></script>
 <script src="js/credits.js"></script>
 <script src="js/footer.js"></script>

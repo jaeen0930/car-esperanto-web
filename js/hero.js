@@ -41,7 +41,6 @@
     // AIDV 화면으로
     dim.style.opacity = (0.7 * seg(q, 0.55, 0.74)).toFixed(3);
     aidv.style.opacity = seg(q, 0.62, 0.8).toFixed(3);
-    band.set(seg(q, 0.84, 1));
     const theme = q > 0.4 ? 'dark' : 'light';
     if (theme !== lastTheme) { lastTheme = theme; nav.dataset.theme = theme; hero.classList.toggle('is-covered', theme === 'dark'); }
   }
@@ -52,6 +51,7 @@
   });
   render(0);
   hero._st = st;
+  CE.bandAfter(hero, band, { span: 0.7 });   // 핀이 풀린 뒤 히어로가 올라가며 흰 밴드가 차오른다
 
   /* 자동 덮기 (v5): 아래로 조금 내리면 영상 화면(진행 0.5)까지 한 박자로 간다. 위로 살짝 올리면 처음으로. */
   const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches || /nocarry/.test(location.search);

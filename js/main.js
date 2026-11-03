@@ -13,11 +13,15 @@
   function theme() {
     const rem = parseFloat(getComputedStyle(document.documentElement).fontSize);
     const probe = (3.15 + 0.95) * rem;
+    // 채원 단(iframe)이 화면 위쪽 절반까지 올라오면 우리 네비는 미리 숨긴다 — 그 위에 네비가 겹치지 않게
+    const vh = window.innerHeight;
+    const hideNow = secs.some(s => s.dataset.nav === 'hide' && (() => { const r = s.getBoundingClientRect(); return r.top < vh * 0.55 && r.bottom > probe; })());
+    nav.classList.toggle('is-hidden', hideNow);
+    if (hideNow) return;
     for (const s of secs) {
       const r = s.getBoundingClientRect();
       if (r.top <= probe && r.bottom > probe) {
         if (s === hero) return;                       // 히어로 안에서는 hero.js 가 결정
-        nav.classList.toggle('is-hidden', s.dataset.nav === 'hide');   // iframe 단(채원 · 3D)은 자기 헤더가 있어 우리 네비를 숨긴다
         if (s.dataset.nav !== 'hide' && nav.dataset.theme !== s.dataset.nav) nav.dataset.theme = s.dataset.nav;
         return;
       }
@@ -45,7 +49,11 @@
     document.querySelectorAll('video').forEach(v => { v.muted = !on; });
   });
 
-  // iframe 안에서의 스크롤은 그 안에서만 (끝에 닿으면 브라우저가 자연스럽게 바깥으로 넘긴다)
+  // 채원 단(iframe)이 맨 위·맨 아래에 닿은 채로 더 굴리면 바깥 페이지가 이어서 움직인다 (iframe 쪽에서 {ceScroll: dy} 를 보낸다)
+  window.addEventListener('message', e => {
+    const d = e.data; if (!d || typeof d !== 'object') return;
+    if (Number.isFinite(d.ceScroll)) window.scrollBy({ top: d.ceScroll, behavior: 'instant' });
+  });
   window.addEventListener('load', () => { ScrollTrigger && ScrollTrigger.refresh(); });
   document.fonts && document.fonts.ready.then(() => { ScrollTrigger && ScrollTrigger.refresh(); });
 })();

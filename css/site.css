@@ -72,16 +72,13 @@ button { font: inherit; color: inherit; background: none; border: 0; padding: 0;
 #nav .logo { position: absolute; left: 6.4rem; top: 1.8rem; width: 9.06rem; height: 4.81rem; }
 #nav .logo svg, #nav .logo img { width: 100%; height: 100%; }
 #nav[data-theme="dark"] .logo img { filter: invert(1); }
-#nav .links { position: absolute; left: calc(66.67% + 7.078rem); top: 3.15rem; width: 50.55rem; height: 1.9rem; }
-#nav .links a { position: absolute; top: 0; }
-#nav .links a:nth-child(1) { left: 0; }              /* About      inset 0 89.81% 0 0 */
-#nav .links a:nth-child(2) { left: 29.47%; }         /* Works */
-#nav .links a:nth-child(3) { left: 53.61%; }         /* Designers */
-#nav .links a:nth-child(4) { left: 83.98%; }         /* Exhibition */
+#nav .links { position: absolute; right: 6.4rem; top: 3.15rem; height: 1.9rem; display: flex; gap: 9.6rem; }   /* 글자 사이 간격을 똑같이 */
+#nav .links a { display: block; }
 #nav .links a:hover { opacity: .6; }
 #nav[data-theme="dark"] { --nav-color: #fff; }
 #nav[data-theme="light"] { --nav-color: #000; }
-#nav.is-hidden { opacity: 0; transition: opacity .3s; }
+#nav.is-hidden { opacity: 0; pointer-events: none; transition: opacity .3s; }
+#nav.is-hidden > * { pointer-events: none; }
 
 /* ─── 1. 히어로 (CAR ▭ ESPERANTO → 상자가 화면을 덮음 → AIDV) ─── */
 #hero { height: 100vh; }
@@ -110,6 +107,10 @@ button { font: inherit; color: inherit; background: none; border: 0; padding: 0;
 /* ─── 픽셀 밴드 (Kalkbrenner 식 전환) ─── */
 .pxband { position: absolute; left: 0; right: 0; bottom: 0; height: 24rem; display: grid; grid-auto-flow: column; pointer-events: none; z-index: 5; }
 .pxband i { display: block; opacity: 0; background: var(--px-color, #fff); }
+/* 전환 뒤 빈 자리: 밴드가 다 찰 때까지 다음 단의 색만 보인다 (Kalkbrenner 식) */
+.gapblk { position: relative; width: 100%; height: 70vh; height: 70svh; }
+.gapblk--white { background: #fff; }
+.gapblk--black { background: #000; }
 
 /* ─── 2. 자율주행 레벨 (journey) ─── */
 #levels { height: 100vh; background: #fff; color: #000; }
@@ -120,13 +121,27 @@ button { font: inherit; color: inherit; background: none; border: 0; padding: 0;
 #levels .lv-img img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; transform-origin: 50% 100%; }
 #levels .lv-stack { position: absolute; left: 0; top: 0; width: 100%; height: 100%; }
 #levels .lv-row { position: absolute; left: 0; top: 0; will-change: transform; }
+#levels .lv-row.is-out { pointer-events: none; }
 #levels .lv-row .t-level { position: absolute; left: 0; top: 0; }
 #levels .lv-row .line { position: absolute; left: 6.4rem; width: 179.2rem; height: 0.1rem; background: #000; }
 #levels .lv-why { position: absolute; left: 6.35rem; top: 20.3rem; width: 75rem; opacity: 0; }
 #levels .lv-why .en { font-family: var(--sans-en); font-weight: 500; }
 
-/* ─── 3·4·5 정적 화면 (Everyone Speaks · The Gap · Vision) ─── */
+/* ─── 3·4·5 정적 화면 (Everyone Speaks · The Gap · Vision) — 장면이 아래에서 올라와 앞 장면을 덮는다 ─── */
+#std-wrap { position: relative; }
+.std { position: sticky; top: 0; height: 100vh; height: 100svh; min-height: 0; overflow: hidden; }
+.std + .std { margin-top: 45vh; }                       /* 앞 장면이 잠깐 머무는 길이 */
+.std .frame { will-change: transform; }
+.std .shade { position: absolute; inset: 0; background: #000; opacity: 0; pointer-events: none; z-index: 4; }
 .std .copy { position: absolute; left: 6.35rem; top: 20.3rem; width: 85rem; }
+/* 등장: 글은 줄 단위로, 사진은 아래에서 자라 올라온다 */
+.std .trio img, #gap .photo img { transform: scaleY(0); transform-origin: 50% 100%; transition: transform .9s cubic-bezier(.2,.7,.2,1); }
+.std.is-in .trio img, #gap.is-in .photo img { transform: none; }
+.std .trio--2 img { transition-delay: .12s; } .std .trio--3 img { transition-delay: .24s; }
+#gap .marker, #gap .gcol { opacity: 0; transform: translateY(1.2rem); transition: opacity .6s ease, transform .6s cubic-bezier(.2,.7,.2,1); }
+#gap.is-in .marker, #gap.is-in .gcol { opacity: 1; transform: none; }
+#gap.is-in .marker { transition-delay: .7s; }
+#gap.is-in .gcol--1 { transition-delay: .55s; } #gap.is-in .gcol--2 { transition-delay: .65s; } #gap.is-in .gcol--3 { transition-delay: .75s; }
 .std .copy .en { font-family: var(--sans-en); font-weight: 500; }
 .std .red { color: var(--red); }
 .trio { position: absolute; top: 35.96rem; width: 58.15rem; height: 66.52rem; background: var(--gray-1); overflow: hidden; }
@@ -152,6 +167,9 @@ button { font: inherit; color: inherit; background: none; border: 0; padding: 0;
 
 /* ─── 6. CAR ESPERANTO (붉은 배경) ─── */
 #ce { background: #000; color: #fff; }
+#ce .mark, #ce .head, #ce .desc { opacity: 0; transform: translateY(1.5rem); transition: opacity .9s ease, transform .9s cubic-bezier(.2,.7,.2,1); }
+#ce.is-in .mark, #ce.is-in .head, #ce.is-in .desc { opacity: 1; transform: none; }
+#ce.is-in .head { transition-delay: .15s; } #ce.is-in .desc { transition-delay: .3s; }
 #ce .bg { position: absolute; inset: 0; }
 #ce .bg img { width: 100%; height: 100%; object-fit: cover; }
 #ce .mark { position: absolute; left: 7.24rem; top: 21.21rem; width: 65.72rem; height: 6.22rem; }
@@ -164,14 +182,37 @@ button { font: inherit; color: inherit; background: none; border: 0; padding: 0;
 .embed iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; display: block; }
 .embed .embed-tag { position: absolute; right: 2.4rem; bottom: 2rem; z-index: 2; color: rgba(255,255,255,.55); font-family: var(--sans-en); font-weight: 500; font-size: 1.1rem; letter-spacing: .02em; pointer-events: none; }
 
-/* ─── 9. Passenger Interaction (GUI · Polestar 식 고정 캡션) ─── */
+/* 3D 변환기: 멈춘 썸네일이 스크롤에 올라오고, 누르면 전체 화면으로 열린다 */
+#converter { background: #000; color: #fff; }
+#converter .conv-copy { position: absolute; left: 6.35rem; top: 20.3rem; width: 58.14rem; opacity: 0; transform: translateY(1.5rem); transition: opacity .8s ease, transform .8s cubic-bezier(.2,.7,.2,1); }
+#converter .conv-copy .en { font-family: var(--sans-en); font-weight: 500; }
+#converter.is-in .conv-copy { opacity: 1; transform: none; }
+#converter .conv-thumb { position: absolute; left: 6.4rem; top: 35.96rem; width: 179.2rem; height: 66.52rem; overflow: hidden; background: #0a0a0a; display: block; opacity: 0; transform: translateY(14rem) scale(.96); transform-origin: 50% 100%; transition: opacity .9s ease, transform 1s cubic-bezier(.2,.7,.2,1); }
+#converter.is-in .conv-thumb { opacity: 1; transform: none; transition-delay: .12s; }
+#converter .conv-thumb img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; filter: brightness(.82); transition: filter .4s, transform 1.2s cubic-bezier(.2,.7,.2,1); }
+#converter .conv-thumb:hover img { filter: brightness(1); transform: scale(1.015); }
+#converter .conv-thumb .pill { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); display: inline-flex; align-items: center; gap: 1rem; padding: 0 2.4rem; height: 4.25rem; border-radius: 2.2rem; background: rgba(255,255,255,.92); color: #000; font-family: var(--sans-kr); font-weight: 500; font-size: 1.6rem; letter-spacing: -0.0432rem; white-space: nowrap; transition: background .25s, transform .25s; }
+#converter .conv-thumb:hover .pill { background: #fff; transform: translate(-50%, -50%) scale(1.04); }
+#converter .conv-thumb .pill .dot { width: .9rem; height: .9rem; border-radius: 50%; background: var(--red); }
+#conv-overlay { position: fixed; inset: 0; z-index: 85; background: #000; display: none; }
+#conv-overlay.is-open { display: block; }
+#conv-overlay .cframe { position: absolute; inset: 0; }
+#conv-overlay .cframe iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; display: block; background: #000; }
+#conv-overlay .close { position: absolute; right: 2.4rem; top: 2.2rem; z-index: 3; width: 4.4rem; height: 4.4rem; border-radius: 50%; background: rgba(255,255,255,.92); color: #000; font-family: var(--sans-en); font-weight: 500; font-size: 2rem; line-height: 1; display: grid; place-items: center; transition: transform .2s, background .2s; }
+#conv-overlay .close:hover { background: #fff; transform: scale(1.06); }
+body.conv-open { overflow: hidden; }
+
+/* ─── 9. Passenger Interaction (GUI · Polestar 식 고정 캡션) ───
+   사진은 멈추지 않고 그대로 흘러가고, 캡션만 왼쪽 아래에 붙어 따라온다 (sticky). */
+#gui { background: #000; color: #fff; }
 .gui { position: relative; background: #000; color: #fff; }
-.gui .gui-pin { position: sticky; top: 0; height: 100vh; height: 100svh; overflow: hidden; }
-.gui .gui-track { position: absolute; left: 0; top: 50%; width: 192rem; transform: translateY(-50%); will-change: transform; }
-.gui .gui-track.tall { top: 0; transform: none; }
+.gui .shots { position: relative; width: 192rem; }
 .gui .shot { position: relative; width: 192rem; overflow: hidden; }
+.gui .shots .shot:only-child { min-height: 100vh; min-height: 100svh; }
 .gui .shot img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
-.gui .cap { position: absolute; left: 6.4rem; bottom: 2.55rem; width: 58.14rem; z-index: 3; }
+.gui .cap-wrap { position: absolute; inset: 0; display: flex; flex-direction: column; justify-content: flex-end; pointer-events: none; z-index: 3; }
+.gui .cap { position: sticky; bottom: 9.6rem; margin-left: 6.4rem; width: 58.14rem; pointer-events: auto; opacity: 0; transition: opacity .5s ease; }
+.gui.is-in .cap { opacity: 1; }
 .gui .cap .lab { color: var(--red); }
 .gui .cap .lab .en { font-family: var(--sans-en); font-weight: 500; }
 .gui .check { position: absolute; width: 6.75rem; height: 5.66rem; }
@@ -183,8 +224,12 @@ button { font: inherit; color: inherit; background: none; border: 0; padding: 0;
 .gui .card .tv { position: absolute; top: -0.15rem; width: .2rem; height: 2.9rem; background: #fff; }
 .gui .card .tv--l { left: 0; } .gui .card .tv--r { right: 0; }
 .gui .card .txt { position: absolute; left: 6.22rem; top: 5.55rem; font-weight: 500; font-size: 3.25rem; line-height: 4.95rem; letter-spacing: 0.0325rem; white-space: pre; }
+/* 04 카드 (11-3 피그마 새 판: 왼쪽으로 · 작게) */
+.gui .card.card--v2 { left: 24.72rem; top: 13.66rem; width: 71.28rem; height: 15.19rem; }
+.gui .card.card--v2 .txt { left: 4.46rem; top: 4.12rem; font-size: 2.33rem; line-height: 3.55rem; letter-spacing: 0.0233rem; }
+.gui .card.card--v2 .tv { height: 2.07rem; }
 /* 05 노티스 */
-.gui .notice { position: absolute; left: calc(33.33% + 10.97rem); top: 47.56rem; font-weight: 500; font-size: 1.894rem; line-height: 2.884rem; letter-spacing: .019rem; white-space: pre; }
+.gui .notice { position: absolute; left: 70.99rem; top: 56.59rem; font-weight: 500; font-size: 2.27rem; line-height: 3.45rem; letter-spacing: .023rem; white-space: pre; }
 .gui .icon { position: absolute; width: 6.75rem; height: 5.66rem; }
 .gui .icon img { width: 107%; height: 100%; }
 
@@ -232,6 +277,7 @@ button { font: inherit; color: inherit; background: none; border: 0; padding: 0;
 
 /* ─── 11. 엔딩 크레딧 (호수 위 글자가 올라감) ─── */
 #credits { height: 100vh; background: #000; color: #fff; }
+#credits .pxband { z-index: 6; }
 #credits .bg { position: absolute; inset: 0; }
 #credits .bg img { width: 100%; height: 100%; object-fit: cover; }
 #credits .roll { position: absolute; left: calc(50% + 0.55rem); top: 9.35rem; width: 50.95rem; transform: translateX(-50%); display: flex; flex-direction: column; gap: 16.3rem; align-items: center; will-change: transform; }

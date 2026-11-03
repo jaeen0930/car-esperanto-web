@@ -47,3 +47,13 @@ python3 -m http.server 8000
 2. Netlify → Add new site → Import from Git → 이 저장소 선택. Build command 없음, Publish directory `.`
 3. 이후엔 파일을 고치고 `git push` 만 하면 1분 안에 반영된다.
 4. 도메인 `cep.ai.kr`: Netlify Site → Domain management → Add domain → 안내대로 DNS 에 CNAME 추가.
+
+## 11-03 · 2차 피드백 반영
+- 네비: 메뉴 사이 간격을 같게(flex, 오른쪽 6.4rem). 채원 단이 화면 위쪽 절반에 들어오면 네비를 숨긴다.
+- 픽셀 전환(히어로 → 레벨 · Vision → CAR ESPERANTO · 크레딧 → Designers): 핀이 풀린 뒤 섹션이 올라가는 만큼 밴드가 차오르고(`CE.bandAfter`), 그 뒤에 다음 단 색의 빈 단(`.gapblk`)이 이어진다.
+- 레벨: 지나간 줄은 왼쪽으로 빠지고, Level 5 다음에 Level 4 줄이 아래에서 한 번 더 올라와 커지며 Why Level 4.
+- Everyone · Gap · Vision: sticky 로 겹쳐 쌓이고 다음 장면이 앞 장면을 덮는다(`js/std.js`). 사진은 아래에서 자라고 글은 줄 단위로.
+- 3D 변환기: 섹션에는 썸네일(`assets/img/conv-thumb.jpg`)만, 누르면 전체 화면으로 열림(✕ · ESC, `js/converter.js`). 쿠페 뒤 엔진 뚜껑 메움(`capLid`), 마름모 · 도트 · 삼각 크기 키움, 카드에 '자리'(자동 / 차를 눌러 놓기).
+- GUI: 사진은 멈추지 않고 흐르고 캡션만 sticky(아래 9.6rem). 04 · 05 · Vision 사진은 피그마 새 판으로 교체.
+- 채원 단(V18): Pretendard · ABC Diatype, 배경 검정, 3D 장면(남색 → 검정 · 격자 어둡게 · 라벨 검정), 3D 단 끝에서 바깥 페이지로 스크롤이 이어짐, '직접 바꿔보세요' 띠는 `dotgrammar/index.html?embed=motion`(도트 그래머 변환기 v11 의 숨쉬기 모션 + 전체 격자).
+- 방명록 버튼 → 키오스크 `https://car-esperanto-guestbook.netlify.app/kiosk.html?screen=both`.
