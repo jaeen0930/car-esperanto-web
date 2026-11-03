@@ -198,6 +198,8 @@ button { font: inherit; color: inherit; background: none; border: 0; padding: 0;
 /* (11-04) 썸네일은 차만 깔끔하게, 버튼은 시나리오 Play 와 같은 흰 버튼 하나 (알약·빨간 점 없앰) */
 #converter .conv-thumb { position: absolute; left: 6.4rem; top: 35.96rem; width: 179.2rem; height: 66.52rem; overflow: hidden; background: #141518; display: block; cursor: pointer; opacity: 0; transform: translateY(1.6rem); transition: opacity 1.1s ease, transform 1.1s cubic-bezier(.25,.6,.25,1); }
 #converter.is-in .conv-thumb { opacity: 1; transform: none; transition-delay: .1s; }
+#converter .conv-thumb video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; pointer-events: none; transition: transform 1.2s cubic-bezier(.2,.7,.2,1); }
+#converter .conv-thumb:hover video { transform: scale(1.012); }
 #converter .conv-thumb img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; transition: transform 1.2s cubic-bezier(.2,.7,.2,1); }
 #converter .conv-thumb:hover img { transform: scale(1.012); }
 #converter .conv-btn { position: absolute; left: calc(75% + 3.05rem); top: 20.3rem; width: 38.55rem; height: 4.25rem; border-radius: .45rem; background: #fff; color: #000; font-family: var(--sans-en); font-weight: 500; font-size: 1.6rem; line-height: 2.4rem; letter-spacing: -0.0432rem; display: grid; place-items: center; opacity: 0; transform: translateY(1rem); transition: opacity .8s ease, transform .8s cubic-bezier(.2,.7,.2,1), background .25s; }
@@ -310,7 +312,10 @@ body.conv-open { overflow: hidden; }
 
 /* ─── 12. Designers ─── */
 #designers { background: #fff; color: #000; }
-#designers .wrap { position: absolute; left: 6.35rem; top: 6.2rem; width: 115.8rem; display: flex; flex-direction: column; gap: 7.25rem; }
+/* (11-04) 내용 높이만큼 단이 늘고, 아래에 흰 여백을 넉넉히 둔다 (화면 비율과 상관없이 푸터에 붙지 않게) */
+#designers { min-height: 0; }
+#designers .frame { position: relative; top: auto; transform: none; height: auto; padding: 6.2rem 0 26rem; }
+#designers .wrap { position: relative; left: 6.35rem; top: 0; width: 115.8rem; display: flex; flex-direction: column; gap: 7.25rem; }
 #designers .person { display: flex; flex-direction: column; gap: 9.25rem; }
 #designers .name { font-family: var(--sans-en); font-weight: 700; font-size: 1.906rem; line-height: 1.9rem; letter-spacing: -0.0515rem; }
 #designers .row { display: flex; justify-content: space-between; align-items: flex-start; }

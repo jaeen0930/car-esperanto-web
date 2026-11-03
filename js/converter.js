@@ -17,6 +17,9 @@
     open.focus();
   }
   open.addEventListener('click', show);
+  // 미리보기: 섹션이 보일 때만 차가 도는 영상을 재생한다 (변환기 화면을 미리 렌더한 턴테이블)
+  const turn = document.getElementById('conv-turn');
+  if (turn && 'IntersectionObserver' in window) new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) turn.play().catch(() => {}); else turn.pause(); }), { threshold: 0.15 }).observe(turn);
   const btn = document.getElementById('conv-open-btn'); if (btn) btn.addEventListener('click', show);
   close.addEventListener('click', hide);
   window.addEventListener('keydown', e => { if (e.key === 'Escape' && ov.classList.contains('is-open')) hide(); });
