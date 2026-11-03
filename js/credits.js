@@ -16,5 +16,5 @@
   }
   ScrollTrigger.create({ trigger: sec, start: 'top top', end: '+=220%', pin: true, scrub: 0.5, onUpdate: s => render(s.progress), onRefresh: s => render(s.progress) });
   render(0);
-  CE.bandAfter(sec, band, { span: 0.7 });   // 핀이 풀린 뒤 크레딧이 올라가며 흰 밴드가 차오른다
+  CE.bandAfter(sec, band);   // 핀이 풀린 뒤 크레딧이 올라가며 흰 밴드가 차오른다
 })();

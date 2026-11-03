@@ -51,7 +51,7 @@
   });
   render(0);
   hero._st = st;
-  CE.bandAfter(hero, band, { span: 0.7 });   // 핀이 풀린 뒤 히어로가 올라가며 흰 밴드가 차오른다
+  CE.bandAfter(hero, band);   // 핀이 풀린 뒤 히어로가 올라가며 흰 밴드가 차오른다
 
   /* 자동 덮기 (v5): 아래로 조금 내리면 영상 화면(진행 0.5)까지 한 박자로 간다. 위로 살짝 올리면 처음으로. */
   const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches || /nocarry/.test(location.search);

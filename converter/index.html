@@ -10379,7 +10379,7 @@ window.KO2EN = (function () {
   const SHAPES = [['D:oko', '픽셀'], ['D:rhomb', '마름모'], ['D:circle', '도트'], ['D:tri', '삼각']];
   const LAYERS = [['2.5', '보행자', 'human', 1.53], ['12', '차량 · 기계', 'car', 1.3]]; // 대상: 사람이면 글자(2.5 m 단) + 사람 모형, 차 · 기계면 끝 단 코드(12 m 단) + 차 모형
     const VIEWS = [['human', 'CONVERSATION'], ['camera', 'NOTICE']]; // 전시 보드의 이름 그대로 — 차체 문장 / 창문 근적외선 층(카메라 시점)
-  const state = { car: 'r-ce', shape: 'D:oko', layer: '2.5', view: 'human' };
+  const state = { car: 'r-ce', shape: 'D:oko', layer: '12', view: 'human' }; // (11-04 재은) 처음 열면 차량 · 기계 대상이 기본
   const fire = (el, type) => el && el.dispatchEvent(new Event(type, { bubbles: true }));
   const mark = (host, v) => [...host.children].forEach(b => b.classList.toggle('on', b.dataset.v === String(v)));
   function seg(host, items, key, onPick) {
@@ -10524,7 +10524,7 @@ window.KO2EN = (function () {
     initRail(); setTimeout(uncover, 15000); // 차가 안 와도 15초 뒤엔 걷는다
     // 시작값
     applyColor('wLight', $('wLight').dataset.c); applyColor('wBg', $('wBg').dataset.c); applyColor('wBody', $('wBody').dataset.c);
-    applyCarSet('r-ce'); applyLayer(LAYERS[0]); texts.human = $('wText').value; applyView(VIEWS[0]);
+    applyCarSet('r-ce'); applyLayer(LAYERS[1]); texts.human = $('wText').value; applyView(VIEWS[0]);
     $('webCredit').textContent = '3D 모델 · ' + (window.REAL.ce.credit || '');
     setTimeout(syncGram, 300); setInterval(syncGram, 1500);
   }

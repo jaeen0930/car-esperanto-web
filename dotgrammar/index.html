@@ -1788,7 +1788,8 @@ function renderMotion(now){ var G=gram(), line=bigLines(G).join("  ").replace(/\
   /* 바탕: 띠 전체에 이어지는 옅은 격자(지금 모양의 칸) */
   var gh=new Path2D(), L0=layoutOf("-",{x:x0,y:y,w:g.cols*cs,h:rowH},0,0), cols=Math.ceil(W/cs)+2, offX=((x0%cs)+cs)%cs-cs;
   for(var j=(S.embed?-Math.ceil(y/cs):0);j<(S.embed?g.rows+Math.ceil((H-y-rowH)/cs):g.rows);j++) for(var i=0;i<cols;i++){ var Lf={g:g,cs:cs,ox:offX+i*cs-0*cs,oy:y,kind:L0.kind,sh:L0.sh,sgn:1}; Lf.ox=offX+i*cs; var cb={x:Lf.ox,y:y+j*cs,w:cs,h:cs}; if(L0.kind==="diamond"){ gh.moveTo(cb.x+cs/2,cb.y+cs*0.06); gh.lineTo(cb.x+cs*0.94,cb.y+cs/2); gh.lineTo(cb.x+cs/2,cb.y+cs*0.94); gh.lineTo(cb.x+cs*0.06,cb.y+cs/2); gh.closePath(); } else if(L0.kind==="tri"){ triPath(gh,cb,0.88,triUp(i,j,1)); } else if(S.layout==="circle"){ gh.moveTo(cb.x+cs/2+cs*0.09,cb.y+cs/2); gh.arc(cb.x+cs/2,cb.y+cs/2,cs*0.09,0,Math.PI*2); } else gh.rect(cb.x+cs*0.06,cb.y+cs*0.06,cs*0.88,cs*0.88); }
-  c.save(); c.globalAlpha=S.embed?(S.embedGhost||0.16):0.05; c.fillStyle=S.fg; c.fill(gh); c.restore();
+  /* (11-04) 웹 임베드에서는 띠 바깥의 옅은 격자를 그리지 않는다 — 글자 칸의 회색 바탕만 남긴다 */
+  if(!S.embed||S.embedGhost>0){ c.save(); c.globalAlpha=S.embed?S.embedGhost:0.05; c.fillStyle=S.fg; c.fill(gh); c.restore(); }
   /* 글자: 흐름이면 칸 단위로 밀린다 */
   var shift=0; if(kind==="flow"){ var span=lw+W; shift=Math.round((W-p*span)/cs)*cs-x0; }
   var kk=0; line.split("").forEach(function(ch,i){ if(ch===" ") return; var u=N>1?kk/(N-1):0, mo=motionAt(kind,u,p), bx=x0+i*advOf()*cs+shift, b={x:bx,y:y,w:g.cols*cs,h:rowH}; kk++;
@@ -2116,7 +2117,7 @@ var EMBED=(function(){ try{ return new URLSearchParams(location.search).get("emb
 if(EMBED==="motion"){
   document.documentElement.classList.add("embed");
   var est=document.createElement("style"); est.textContent="html.embed,html.embed body{background:#000!important;margin:0!important;padding:0!important;overflow:hidden!important;width:100%;height:100%} html.embed body>*{display:none!important} html.embed #embedBox{display:block!important;position:fixed;inset:0;background:#000} html.embed #embedBox canvas{position:absolute;left:0;top:50%;transform:translateY(-50%);width:100%!important;height:auto!important;display:block;image-rendering:auto}"; document.head.appendChild(est);
-  S.embed=true; S.embedGhost=0.1; S.view="motion"; S.useGram=false; S.bg="#000000"; S.fg="#ffffff"; S.motion="breathe"; S.motionSec=7; S.motionPlay=true; S.motionPos=0; S.width=1000; S.fit=true; S.ghost=true;
+  S.embed=true; S.embedGhost=0; S.view="motion"; S.useGram=false; S.bg="#000000"; S.fg="#ffffff"; S.motion="breathe"; S.motionSec=7; S.motionPlay=true; S.motionPos=0; S.width=1000; S.fit=true; S.ghost=true;
   var LAYOUTS={oko:"oko", rhomb:"rhomb", circle:"circle", tri:"tri", square:"oko", dot:"circle", diamond:"rhomb"};
   function embedApply(m){
     if(typeof m.text==="string"){ $("src").value=m.text.trim()||" "; }

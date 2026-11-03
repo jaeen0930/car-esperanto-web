@@ -32,10 +32,13 @@ CE.PixelBand = function (el) {
 /* 섹션이 (핀이 풀린 뒤) 화면 위로 밀려 나갈 때 밴드가 차오른다.
    섹션 아랫변이 화면 아래에서 화면 높이의 span 만큼 올라오는 동안 0→1. 다 차면 다음 단의 빈 색(.gapblk)만 남는다. */
 CE.bandAfter = function (section, band, opt) {
-  const span = (opt && opt.span) || 0.7;
+  // 섹션 아랫변이 화면 맨 아래에 있을 때 0, 밴드 윗변이 화면 맨 위에 닿을 때(아랫변 = 밴드 높이) 1.
+  // 남은 칸이 화면 밖으로 잘려 나가며 검은 줄처럼 보이지 않게, 밴드가 화면 안에 온전히 있을 때 다 찬다.
   function tick() {
     const vh = window.innerHeight, b = section.getBoundingClientRect().bottom;
-    band.set((vh - b) / (vh * span));
+    const end = band.el.getBoundingClientRect().height + vh * 0.1;
+    const q = Math.max(0, Math.min(1, (vh - b) / Math.max(1, vh - end)));
+    band.set(Math.pow(q, 1.35));       // 처음엔 천천히, 섹션이 거의 다 올라갔을 때 다 찬다 (11-04: 너무 일찍 다 차지 않게)
   }
   window.addEventListener('scroll', tick, { passive: true });
   window.addEventListener('resize', tick);

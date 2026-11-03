@@ -17,6 +17,7 @@
     open.focus();
   }
   open.addEventListener('click', show);
+  const btn = document.getElementById('conv-open-btn'); if (btn) btn.addEventListener('click', show);
   close.addEventListener('click', hide);
   window.addEventListener('keydown', e => { if (e.key === 'Escape' && ov.classList.contains('is-open')) hide(); });
 })();

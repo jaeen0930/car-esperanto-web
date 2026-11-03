@@ -1,7 +1,8 @@
 /* 자율주행 레벨 — paulkalkbrenner.net/journey 와 같은 방식.
    "Level 0 … Level 5" 가 아래로 갈수록 오른쪽으로 비껴 쌓이고(사이에 가는 줄), 스크롤하면 스택이 위로 밀리며 활성 레벨이 바뀐다.
    지나간 레벨은 왼쪽으로 쏙 빠져나간다. 설명(왼쪽 위)·사진(오른쪽 위)은 레벨이 바뀔 때 교체(사진은 아래에서 자라나고, 글은 줄 단위로 올라온다).
-   5단계까지 간 뒤 더 내리면 Level 5 도 왼쪽으로 빠지고, 아래에서 "Level 4" 가 다시 올라온다. 그 Level 4 가 커지며 Why Level 4 가 된다. */
+   5단계까지 간 뒤 더 내리면 스택이 거꾸로 한 칸 돌아가 왼쪽으로 빠졌던 Level 4 가 제자리로 돌아온다(새 줄을 만들지 않는다).
+   그 Level 4 가 커지며 Why Level 4 가 된다. (11-04 재은: 레벨 5 뒤에 새 레벨 4 를 두지 말고, 이미 있던 레벨 4 로 돌아가서 커지게) */
 (function () {
   const sec = document.getElementById('levels'); if (!sec) return;
   const stack = document.getElementById('lv-stack'), imgBox = document.getElementById('lv-img'), copy = document.getElementById('lv-copy'), why = document.getElementById('lv-why');
@@ -19,8 +20,9 @@
     { en: 'High Driving Automation', kr: ['정해진 조건 안에서는, 운전을 차에 맡깁니다.', '정해진 지역·도로·날씨 등의 조건에서 차가 운전과 위험 대응을 맡습니다.', '사람이 운전을 이어받을 필요가 없어, 탑승자는 이동 중 다른 활동을 할 수 있습니다.'], img: 'lv4.jpg', w: 50.7 },
     { en: 'Full Driving Automation', kr: ['사람이 운전할 수 있는 모든 조건에서, 차가 운전을 맡습니다.', '특정 운행 조건에 한정되지 않고, 사람이 운전할 수 있는 모든 도로와 환경에서 차가 운전합니다.', '탑승자는 운전을 맡거나 이어받을 필요가 없습니다.'], img: 'lv5.jpg', w: 58.14 },
   ];
-  // 줄 순서: 0 1 2 3 4 5 그리고 다시 4 (마지막 줄이 커져 Why Level 4 가 된다)
-  const ORDER = [0, 1, 2, 3, 4, 5, 4];
+  // 줄 순서: 0 1 2 3 4 5 (돌아갈 때는 같은 Level 4 줄을 다시 쓴다)
+  const ORDER = [0, 1, 2, 3, 4, 5];
+  const BACK = 4;             // 돌아가 커질 줄
   const N = ORDER.length;
   // 피그마 스택 자리 (rem): 활성 줄부터 아래로
   const X = [-11.8, -2.65, 6.6, 15.6, 25.0, 33.35];
@@ -66,30 +68,28 @@
     return { x: X[a] + (X[b] - X[a]) * f, y: Y[a] + (Y[b] - Y[a]) * f, ly: LINE[a] + (LINE[b] - LINE[a]) * f };
   }
 
-  const STEPS = N;             // 0→6 (6 단계) + 마지막 줄 커짐 (1 단계)
+  const STEPS = (N - 1) + 1 + 1;   // 0→5 (5 단계) + 5→4 돌아가기 (1 단계) + Level 4 커짐 (1 단계)
   let whyShown = false;
   function render(p) {
     const r = rem();
     const t = p * STEPS;
     let act, grow = 0;
-    if (t <= N - 1) { const k = Math.floor(t), f = t - k; act = Math.min(N - 1, k + easeInOut(f)); }   // 칸마다 잠깐 머물다 넘어간다
-    else { act = N - 1; grow = easeInOut(cs(t - (N - 1))); }
+    const L = N - 1;
+    if (t <= L) { const k = Math.floor(t), f = t - k; act = Math.min(L, k + easeInOut(f)); }   // 칸마다 잠깐 머물다 넘어간다
+    else if (t <= L + 1) { act = L - (L - BACK) * easeInOut(t - L); }                              // 5 → 4 로 되돌아간다
+    else { act = BACK; grow = easeInOut(cs(t - L - 1)); }
     const idx = Math.max(0, Math.min(N - 1, Math.round(act)));
     rows.forEach((row, i) => {
       const s = i - act;
       let x, y, ly, op = 1, sc = 1, lop = 1;
       if (s >= 0) { const pos = slot(s); x = pos.x; y = pos.y; ly = pos.ly; }
-      else if (i === N - 2) {  // Level 5 는 위로 올라가며 빠진다 (11-3 재은: 5도 올라가고 4가 다시 올라온다)
-        const e = easeOutCubic(cs(-s));
-        x = X[0]; y = Y[0] - 40 * e; ly = LINE[0] - 40 * e; op = 1 - cs(-s * 2.4); lop = 1 - cs(-s * 3);
-      }
       else {                   // 지나간 줄: 왼쪽으로 쏙 빠진다
         const e = easeOutCubic(cs(-s));
         x = X[0] - OUT_X * e; y = Y[0] - 4 * e; ly = LINE[0] - 4 * e; op = 1 - cs(-s * 1.15); lop = 1 - cs(-s * 2.5);
       }
       if (grow > 0) {
-        if (i === N - 1) { x = x + (BIG.x - x) * grow; y = y + (BIG.y - y) * grow; sc = 1 + (BIG.scale - 1) * grow; lop = 1 - grow; }
-        else { op = op * (1 - grow); y = y + 12 * grow; lop = 1 - grow; }
+        if (i === BACK) { x = x + (BIG.x - x) * grow; y = y + (BIG.y - y) * grow; sc = 1 + (BIG.scale - 1) * grow; lop = 1 - grow; }
+        else { op = op * (1 - cs(grow * 2.2)); y = y + 12 * grow; lop = 1 - grow; }
       }
       row.el.classList.toggle('is-out', s <= -1);
       row.t.style.transform = `translate(${(x * r).toFixed(2)}px, ${(y * r).toFixed(2)}px) scale(${sc.toFixed(4)})`;

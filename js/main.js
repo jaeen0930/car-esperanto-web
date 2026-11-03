@@ -13,7 +13,7 @@
   function theme() {
     const rem = parseFloat(getComputedStyle(document.documentElement).fontSize);
     const probe = (3.15 + 0.95) * rem;
-    // 채원 단(iframe)이 화면 위쪽 절반까지 올라오면 우리 네비는 미리 숨긴다 — 그 위에 네비가 겹치지 않게
+    // (11-04) 채원 단 위에서도 우리 네비를 그대로 둔다 — 배경 없이 글자만. data-nav="hide" 단이 생기면 숨긴다.
     const vh = window.innerHeight;
     const hideNow = secs.some(s => s.dataset.nav === 'hide' && (() => { const r = s.getBoundingClientRect(); return r.top < vh * 0.55 && r.bottom > probe; })());
     nav.classList.toggle('is-hidden', hideNow);
@@ -49,11 +49,32 @@
     document.querySelectorAll('video').forEach(v => { v.muted = !on; });
   });
 
-  // 채원 단(iframe)이 맨 위·맨 아래에 닿은 채로 더 굴리면 바깥 페이지가 이어서 움직인다 (iframe 쪽에서 {ceScroll: dy} 를 보낸다)
-  window.addEventListener('message', e => {
-    const d = e.data; if (!d || typeof d !== 'object') return;
-    if (Number.isFinite(d.ceScroll)) window.scrollBy({ top: d.ceScroll, behavior: 'instant' });
-  });
+  // 채원 단(iframe): 단이 화면 맨 위에 딱 맞은 뒤에만 안쪽이 스크롤된다.
+  //  - 위에서 내려오다 단 윗변이 화면 윗변을 지나치면 그 자리에 맞춰 세운다(위에 앞 단이 걸친 채 안쪽만 굴러가지 않게).
+  //  - 안쪽 맨 끝/맨 위에서 더 굴리면 iframe 이 {ceScroll: dy} 를 보내고, 바깥 페이지가 이어서 움직인다.
+  const cw = document.getElementById('chaewon');
+  if (cw) {
+    let lastTop = cw.getBoundingClientRect().top, leaving = 0, snapping = false;
+    const align = () => { snapping = true; window.scrollTo({ top: Math.round(cw.getBoundingClientRect().top + window.scrollY), behavior: 'instant' }); requestAnimationFrame(() => { snapping = false; }); };
+    function cwTick() {
+      const top = cw.getBoundingClientRect().top;
+      if (!snapping && !leaving) {
+        if (lastTop > 0 && top < 0 && top > -window.innerHeight * 0.9) align();        // 내려오며 지나침 → 맞춤
+        else if (lastTop < 0 && top > 0 && top < window.innerHeight * 0.9) align();    // 올라오며 지나침 → 맞춤
+      }
+      const now = cw.getBoundingClientRect().top;
+      if (leaving && Math.abs(now) > window.innerHeight * 0.25) leaving = 0;
+      cw.classList.toggle('is-live', Math.abs(now) < 2);
+      lastTop = now;
+    }
+    window.addEventListener('scroll', cwTick, { passive: true });
+    window.addEventListener('resize', cwTick);
+    cwTick();
+    window.addEventListener('message', e => {
+      const d = e.data; if (!d || typeof d !== 'object') return;
+      if (Number.isFinite(d.ceScroll)) { leaving = Math.sign(d.ceScroll); window.scrollBy({ top: d.ceScroll, behavior: 'instant' }); }
+    });
+  }
   window.addEventListener('load', () => { ScrollTrigger && ScrollTrigger.refresh(); });
   document.fonts && document.fonts.ready.then(() => { ScrollTrigger && ScrollTrigger.refresh(); });
 })();

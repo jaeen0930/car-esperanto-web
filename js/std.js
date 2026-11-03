@@ -15,7 +15,7 @@
   });
   const vision = document.getElementById('vision');
   const band = vision && vision.querySelector('.pxband') ? CE.PixelBand(vision.querySelector('.pxband')) : null;
-  if (band) CE.bandAfter(vision, band, { span: 0.7 });
+  if (band) CE.bandAfter(vision, band);
 
   // 등장 대상: std 세 단 + CAR ESPERANTO + 3D 변환기
   const reveal = [...stds, document.getElementById('ce'), document.getElementById('converter')].filter(Boolean);
