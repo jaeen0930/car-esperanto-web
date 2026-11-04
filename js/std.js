@@ -33,7 +33,7 @@
       el.classList.toggle('is-in', rc.top < vh * 0.45 && rc.bottom > vh * 0.2);
     });
   }
-  window.addEventListener('scroll', tick, { passive: true });
+  CE.onScroll(tick);
   window.addEventListener('resize', tick);
   if (window.ScrollTrigger) ScrollTrigger.addEventListener('refresh', tick);
   tick();

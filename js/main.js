@@ -27,7 +27,7 @@
       }
     }
   }
-  window.addEventListener('scroll', theme, { passive: true });
+  CE.onScroll(theme);
   window.addEventListener('resize', theme);
   theme();
 
@@ -68,6 +68,9 @@
       lastTop = now;
     }
     window.addEventListener('scroll', cwTick, { passive: true });
+    // (11-04 TV 렉) 화면에서 멀리 떨어져 있으면 iframe 을 그리지 않는다(display:none → 안쪽 3D · 띠 애니메이션이 멈춘다). 가까워지면 다시 보인다.
+    const cwFrame = cw.querySelector('iframe');
+    CE.onScroll(() => { const r = cw.getBoundingClientRect(), vh = window.innerHeight, near = r.bottom > -vh * 1.2 && r.top < vh * 2.2; if (cwFrame && cwFrame.style.display !== (near ? '' : 'none')) cwFrame.style.display = near ? '' : 'none'; });
     window.addEventListener('resize', cwTick);
     cwTick();
     window.addEventListener('message', e => {

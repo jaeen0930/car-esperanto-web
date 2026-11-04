@@ -14,7 +14,7 @@
       b.classList.toggle('is-in', r.top < vh * 0.55 && r.bottom > vh * 0.45);
     });
   }
-  window.addEventListener('scroll', render, { passive: true });
+  CE.onScroll(render);
   window.addEventListener('resize', render);
   window.addEventListener('load', render);
   render();

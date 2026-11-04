@@ -2,6 +2,13 @@
    섹션 아래쪽에 cols × rows 칸을 깔고, 진행도(0→1)에 따라 칸이 하나씩 켜진다.
    켜지는 순서 = 아래 줄부터 + 무작위 + 사인 흔들림 (레퍼런스의 priority 식) */
 window.CE = window.CE || {};
+/* (11-04 TV 렉) 스크롤 처리기를 하나로 모아 한 프레임에 한 번만 돌린다 — 처리기마다 따로 레이아웃을 읽고 쓰지 않게 */
+if (!CE.onScroll) {
+  const fns = []; let queued = false;
+  const run = () => { queued = false; for (const f of fns) f(); };
+  window.addEventListener('scroll', () => { if (!queued) { queued = true; requestAnimationFrame(run); } }, { passive: true });
+  CE.onScroll = fn => { fns.push(fn); };
+}
 CE.PixelBand = function (el) {
   const cols = +el.dataset.cols || 24, rows = +el.dataset.rows || 3;
   el.style.gridTemplateColumns = `repeat(${cols}, 1fr)`;
@@ -36,11 +43,11 @@ CE.bandAfter = function (section, band, opt) {
   // 남은 칸이 화면 밖으로 잘려 나가며 검은 줄처럼 보이지 않게, 밴드가 화면 안에 온전히 있을 때 다 찬다.
   function tick() {
     const vh = window.innerHeight, b = section.getBoundingClientRect().bottom;
-    const end = band.el.getBoundingClientRect().height + vh * 0.1;
+    const end = band.el.getBoundingClientRect().height + vh * ((opt && opt.endVh) || 0.1);
     const q = Math.max(0, Math.min(1, (vh - b) / Math.max(1, vh - end)));
     band.set(Math.pow(q, 1.35));       // 처음엔 천천히, 섹션이 거의 다 올라갔을 때 다 찬다 (11-04: 너무 일찍 다 차지 않게)
   }
-  window.addEventListener('scroll', tick, { passive: true });
+  CE.onScroll(tick);
   window.addEventListener('resize', tick);
   if (window.ScrollTrigger) ScrollTrigger.addEventListener('refresh', tick);
   tick();
