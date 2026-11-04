@@ -148,8 +148,6 @@
     <div class="gcol gcol--1"><i class="rule"></i><p class="i">01<b>/</b>DELIVERY GAP</p><p class="t">전달의 간극</p><p class="q">상대가 알아차렸나요?</p><p class="d">전달 대상이나 시야, 연결 조건에 따라 신호가 상대에게 닿지 않을 수 있습니다.</p></div>
     <div class="gcol gcol--2"><i class="rule"></i><p class="i">02<b>/</b>INTERPRETATION GAP</p><p class="t">해석의 간극</p><p class="q">같은 의미로 이해했나요?</p><p class="d">동일한 불빛이나 움직임도 상황에 따라 정차, 양보, 대기 등으로 다르게 해석될 수 있습니다.</p></div>
     <div class="gcol gcol--3"><i class="rule"></i><p class="i">03<b>/</b>CONFIRMATION GAP</p><p class="t">확인의 간극</p><p class="q">상대의 응답을 확인했나요?</p><p class="d">의도를 전달한 뒤에도 상대가 이해하거나 받아들였는지 확인하기 어렵습니다.</p></div>
-    <i class="hr hr--bot"></i>
-    <p class="hmw">서로 다른 주체들이 어떻게 같은 의미를 공유할 수 있을까?</p>
   </div>
 </section>
 
@@ -314,7 +312,7 @@ Child on board.</p>
       </div>
       <div class="blk blk--4" style="width:22.75rem">
         <div class="lg lg--cross"><img loading="lazy" decoding="async" src="assets/img/a9982.svg" alt=""></div>
-        <div class="txt"><p class="lbl">To the One who designed it all</p><p class="nm">THANKS FOR GOD</p></div>
+        <div class="txt"><p class="lbl">To the One who designed it all</p><p class="nm">THANKS TO GOD</p></div>
       </div>
     </div>
   </div>
@@ -388,7 +386,7 @@ CAR ESPERANTO를 경험한 당신의 생각을 더해, 다음 이야기를
 </main>
 
 <!-- ───────── 시나리오 뷰어 (오버레이) ───────── -->
-<div id="viewer" aria-hidden="true">
+<div id="viewer" data-lenis-prevent aria-hidden="true">
   <button class="close" id="viewer-close" type="button">Close ✕</button>
   <div class="vframe" id="viewer-frame"></div>
   <p class="hint">Scroll · ← → · Click thumbnails</p>
@@ -396,13 +394,15 @@ CAR ESPERANTO를 경험한 당신의 생각을 더해, 다음 이야기를
 <div id="dissolve" aria-hidden="true"></div>
 
 <!-- ───────── 3D 변환기 (오버레이) ───────── -->
-<div id="conv-overlay" aria-hidden="true">
+<div id="conv-overlay" data-lenis-prevent aria-hidden="true">
   <button class="close" id="conv-close" type="button" aria-label="3D 변환기 닫기"><b>✕</b>닫기</button>
   <div class="cframe" id="conv-frame"></div>
 </div>
 
 <script src="js/vendor/gsap.min.js"></script>
 <script src="js/vendor/ScrollTrigger.min.js"></script>
+<script src="js/vendor/lenis.min.js"></script>
+<script src="js/smooth.js"></script>
 <script src="js/pixelfont.js"></script>
 <script src="js/pixelband.js"></script>
 <script src="js/hero.js"></script>

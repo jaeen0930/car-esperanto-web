@@ -45,7 +45,7 @@
     if (theme !== lastTheme) { lastTheme = theme; nav.dataset.theme = theme; hero.classList.toggle('is-covered', theme === 'dark'); }
   }
 
-  const st = ScrollTrigger.create({
+  const st = CE.heroST = ScrollTrigger.create({
     trigger: hero, start: 'top top', end: '+=320%', pin: true, pinSpacing: true, scrub: 0.4,
     onUpdate: self => render(self.progress), onRefresh: self => render(self.progress), invalidateOnRefresh: true
   });
@@ -61,6 +61,7 @@
     if (reduced) return;
     const y0 = window.scrollY, y1 = st.start + (st.end - st.start) * qTarget, t0 = performance.now(), DUR = 1300;
     carry = { dir };
+    if (CE.lenis) { CE.lenis.scrollTo(y1, { duration: DUR / 1000, easing: easeBeat, force: true, onComplete: () => { carry = null; } }); return; }
     (function step(now) {
       if (!carry) return;
       const t = Math.min(1, (now - t0) / DUR);
@@ -75,6 +76,6 @@
     if (down && q > 0.03 && q < 0.5) carryTo(0.5, 1);
     else if (!down && q > 0.45 && q < 0.53) carryTo(0, -1);
   }, { passive: true });
-  window.addEventListener('wheel', e => { if (carry && Math.sign(e.deltaY) !== carry.dir) carry = null; }, { passive: true });
+  window.addEventListener('wheel', e => { if (carry && Math.sign(e.deltaY) !== carry.dir) { carry = null; if (CE.lenis) CE.lenis.scrollTo(window.scrollY, { immediate: true, force: true }); } }, { passive: true });
   window.addEventListener('touchstart', () => { carry = null; }, { passive: true });
 })();

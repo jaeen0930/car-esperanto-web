@@ -11,6 +11,9 @@
   const secs = [...document.querySelectorAll('[data-nav]')];
   const hero = document.getElementById('hero');
   function theme() {
+    // (11-04) CEP 로고는 첫 화면에서만 — 아래로 내려가면 숨겨서 뒤로 지나가는 내용과 겹치지 않게 (피그마도 첫 화면 다음부터 로고 없음)
+    const hs = CE.heroST, logoOff = hs ? hs.start + (hs.end - hs.start) * 0.6 : window.innerHeight * 0.5;   // AIDV 화면이 나타나는 지점부터
+    nav.classList.toggle('no-logo', window.scrollY > logoOff);
     const rem = parseFloat(getComputedStyle(document.documentElement).fontSize);
     const probe = (3.15 + 0.95) * rem;
     // (11-04) 채원 단 위에서도 우리 네비를 그대로 둔다 — 배경 없이 글자만. data-nav="hide" 단이 생기면 숨긴다.
@@ -38,7 +41,7 @@
     const id = a.getAttribute('href').slice(1); const t = document.getElementById(id); if (!t) return;
     e.preventDefault();
     const y = id === 'top' ? 0 : t.getBoundingClientRect().top + window.scrollY;
-    window.scrollTo({ top: y, behavior: 'smooth' });
+    CE.scrollTo(y, { duration: 1.4 });
   }));
 
   // Sound OFF / ON (영상이 들어오면 여기서 음소거를 푼다)
@@ -55,7 +58,7 @@
   const cw = document.getElementById('chaewon');
   if (cw) {
     let lastTop = cw.getBoundingClientRect().top, leaving = 0, snapping = false;
-    const align = () => { snapping = true; window.scrollTo({ top: Math.round(cw.getBoundingClientRect().top + window.scrollY), behavior: 'instant' }); requestAnimationFrame(() => { snapping = false; }); };
+    const align = () => { snapping = true; CE.scrollTo(Math.round(cw.getBoundingClientRect().top + window.scrollY), { immediate: true }); requestAnimationFrame(() => { snapping = false; }); };
     function cwTick() {
       const top = cw.getBoundingClientRect().top;
       if (!snapping && !leaving) {
@@ -75,7 +78,7 @@
     cwTick();
     window.addEventListener('message', e => {
       const d = e.data; if (!d || typeof d !== 'object') return;
-      if (Number.isFinite(d.ceScroll)) { leaving = Math.sign(d.ceScroll); window.scrollBy({ top: d.ceScroll, behavior: 'instant' }); }
+      if (Number.isFinite(d.ceScroll)) { leaving = Math.sign(d.ceScroll); CE.lenis ? CE.lenis.scrollTo(CE.lenis.targetScroll + d.ceScroll, { force: true }) : window.scrollBy({ top: d.ceScroll, behavior: 'instant' }); }
     });
   }
   window.addEventListener('load', () => { ScrollTrigger && ScrollTrigger.refresh(); });

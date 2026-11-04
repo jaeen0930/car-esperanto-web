@@ -7,13 +7,13 @@
     lastY = window.scrollY;
     if (!iframe) { iframe = document.createElement('iframe'); iframe.title = 'CAR ESPERANTO · 3D 변환기'; iframe.allow = 'fullscreen'; fr.appendChild(iframe); }
     if (!iframe.src || iframe.src === 'about:blank') iframe.src = 'converter/index.html';
-    ov.classList.add('is-open'); ov.setAttribute('aria-hidden', 'false'); document.body.classList.add('conv-open');
+    ov.classList.add('is-open'); ov.setAttribute('aria-hidden', 'false'); document.body.classList.add('conv-open'); CE.scrollStop && CE.scrollStop();
     close.focus();
   }
   function hide() {
-    ov.classList.remove('is-open'); ov.setAttribute('aria-hidden', 'true'); document.body.classList.remove('conv-open');
+    ov.classList.remove('is-open'); ov.setAttribute('aria-hidden', 'true'); document.body.classList.remove('conv-open'); CE.scrollStart && CE.scrollStart();
     if (iframe) { iframe.src = 'about:blank'; }      // 닫으면 멈춘다 (다시 열면 새로 시작)
-    window.scrollTo(0, lastY);
+    CE.scrollTo(lastY, { immediate: true });
     open.focus();
   }
   open.addEventListener('click', show);

@@ -75,7 +75,7 @@
     const y = window.scrollY;
     dissolve(() => {
       viewer.classList.add('is-open'); viewer.setAttribute('aria-hidden', 'false');
-      document.body.style.overflow = 'hidden'; document.getElementById('nav').classList.add('is-hidden');
+      document.body.style.overflow = 'hidden'; CE.scrollStop && CE.scrollStop(); document.getElementById('nav').classList.add('is-hidden');
       go(0);
     }).then(() => { busy = false; });
     viewer._returnY = y;
@@ -84,9 +84,9 @@
     if (busy) return; busy = true;
     dissolve(() => {
       viewer.classList.remove('is-open'); viewer.setAttribute('aria-hidden', 'true');
-      document.body.style.overflow = ''; document.getElementById('nav').classList.remove('is-hidden');
-      if (toCredits) { const c = document.getElementById('credits'); window.scrollTo(0, c.getBoundingClientRect().top + window.scrollY); }
-      else window.scrollTo(0, viewer._returnY || 0);
+      document.body.style.overflow = ''; CE.scrollStart && CE.scrollStart(); document.getElementById('nav').classList.remove('is-hidden');
+      if (toCredits) { const c = document.getElementById('credits'); CE.scrollTo(c.getBoundingClientRect().top + window.scrollY, { immediate: true }); }
+      else CE.scrollTo(viewer._returnY || 0, { immediate: true });
     }).then(() => { busy = false; });
   }
   function finish() { close(true); }
