@@ -18,7 +18,15 @@ window.CE = window.CE || {};
   } else {
     (function raf(t) { lenis.raf(t); requestAnimationFrame(raf); })(performance.now());
   }
-  CE.scrollTo = (y, o) => lenis.scrollTo(y, Object.assign({ force: true }, o || {}));
+  // 메뉴 링크처럼 코드가 길게 움직일 때는 CE.autoScrolling = true (채원 단에서 멈춰 세우지 않게)
+  CE.scrollTo = (y, o) => {
+    o = Object.assign({ force: true }, o || {});
+    if (o.immediate && !o.keepSnap) { CE.autoScrolling = true; clearTimeout(CE._autoT); CE._autoT = setTimeout(() => { CE.autoScrolling = false; }, 200); }   // 코드로 순간이동할 때도 채원 단에 붙잡히지 않게
+    else if (!o.immediate) { CE.autoScrolling = true; clearTimeout(CE._autoT); CE._autoT = setTimeout(() => { CE.autoScrolling = false; }, ((o.duration || 1.2) + 0.4) * 1000); }
+    lenis.scrollTo(y, o);
+  };
+  // 사람이 휠 · 터치로 끼어들면 자동 이동 표시를 바로 끈다
+  ['wheel', 'touchstart'].forEach(t => window.addEventListener(t, () => { CE.autoScrolling = false; }, { passive: true }));
   CE.scrollStop = () => lenis.stop();
   CE.scrollStart = () => lenis.start();
 })();

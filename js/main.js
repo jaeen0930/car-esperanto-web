@@ -58,12 +58,13 @@
   const cw = document.getElementById('chaewon');
   if (cw) {
     let lastTop = cw.getBoundingClientRect().top, leaving = 0, snapping = false;
-    const align = () => { snapping = true; CE.scrollTo(Math.round(cw.getBoundingClientRect().top + window.scrollY), { immediate: true }); requestAnimationFrame(() => { snapping = false; }); };
+    const align = () => { snapping = true; CE.scrollTo(Math.round(cw.getBoundingClientRect().top + window.scrollY), { immediate: true, keepSnap: true }); requestAnimationFrame(() => { snapping = false; }); };
     function cwTick() {
       const top = cw.getBoundingClientRect().top;
       if (!snapping && !leaving) {
-        if (lastTop > 0 && top < 0 && top > -window.innerHeight * 0.9) align();        // 내려오며 지나침 → 맞춤
-        else if (lastTop < 0 && top > 0 && top < window.innerHeight * 0.9) align();    // 올라오며 지나침 → 맞춤
+        // (11-04) 빠르게 굴려도 건너뛰지 않게 지나친 거리와 상관없이 맞춘다 (메뉴 링크로 이동 중일 때만 예외)
+        if (!CE.autoScrolling && lastTop > 0 && top < 0) align();          // 내려오며 지나침 → 맞춤
+        else if (!CE.autoScrolling && lastTop < 0 && top > 0) align();     // 올라오며 지나침 → 맞춤
       }
       const now = cw.getBoundingClientRect().top;
       if (leaving && Math.abs(now) > window.innerHeight * 0.25) leaving = 0;
@@ -72,8 +73,20 @@
     }
     window.addEventListener('scroll', cwTick, { passive: true });
     // (11-04 TV 렉) 화면에서 멀리 떨어져 있으면 iframe 을 그리지 않는다(display:none → 안쪽 3D · 띠 애니메이션이 멈춘다). 가까워지면 다시 보인다.
+    // (11-04 저녁) 미리 불러 둔다 — 화면에 닿은 뒤에야 6MB 를 받기 시작하면 한동안 검은 화면만 보였다.
+    //   페이지가 다 뜬 뒤 바로 src 를 넣고, 다 불러온 다음부터만 멀리 있을 때 숨긴다(숨김 범위도 넉넉히 ±3화면).
     const cwFrame = cw.querySelector('iframe');
-    CE.onScroll(() => { const r = cw.getBoundingClientRect(), vh = window.innerHeight, near = r.bottom > -vh * 1.2 && r.top < vh * 2.2; if (cwFrame && cwFrame.style.display !== (near ? '' : 'none')) cwFrame.style.display = near ? '' : 'none'; });
+    let cwLoaded = false;
+    if (cwFrame) {
+      cwFrame.addEventListener('load', () => { if (cwFrame.getAttribute('src')) cwLoaded = true; });
+      const startLoad = () => { if (!cwFrame.getAttribute('src') && cwFrame.dataset.src && !/noiframe/.test(location.search)) cwFrame.setAttribute('src', cwFrame.dataset.src); };
+      if (document.readyState === 'complete') setTimeout(startLoad, 300); else window.addEventListener('load', () => setTimeout(startLoad, 300));
+    }
+    CE.onScroll(() => {
+      if (!cwFrame || !cwLoaded) return;
+      const r = cw.getBoundingClientRect(), vh = window.innerHeight, near = r.bottom > -vh * 3 && r.top < vh * 4;
+      if (cwFrame.style.display !== (near ? '' : 'none')) cwFrame.style.display = near ? '' : 'none';
+    });
     window.addEventListener('resize', cwTick);
     cwTick();
     window.addEventListener('message', e => {
